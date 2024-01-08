@@ -11,7 +11,7 @@ function createToDo(title, description, dueDate, priority) {
 }
 
 function displayToDos() {
-    console.log(todos.map(td => td.getDescription()).join('\n'));
+    return todos;
 }
 
 export {createToDo, displayToDos};
