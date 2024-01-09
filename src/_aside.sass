@@ -1,0 +1,45 @@
+
+aside
+    position: absolute
+    left: 0
+    top: 0
+    min-height: 100vh
+    background-color: #252525
+    width: 15rem
+    color: white
+
+    div.user
+        padding: 2rem
+        display: flex
+        justify-content: flex-start
+        align-items: center
+        img
+            width: 3rem
+            aspect-ratio: 1 / 1
+            border-radius: 1.5rem
+        p.username 
+            padding: 0 1rem
+            font-size: 1.2rem
+            font-weight: 700
+
+    button
+        border: 0
+        padding: 1rem 2rem
+        width: 15rem
+        background: none
+        color: darkgrey
+        font-size: 1rem
+        text-align: left
+        &.setting
+            position: absolute
+            bottom: 0
+            left: 0
+        &:hover
+            background-color: #525252
+            cursor: pointer
+
+
+button.my-lists, .priority, .setting
+    font-size: 1.25rem
+    font-weight: 700
+    color: white
