@@ -9,7 +9,7 @@ export default class ToDo {
 
     #priority;
 
-    constructor(title, description, dueDate, priority) {
+    constructor(description, dueDate, priority, title) {
         this.#title = title;
         this.#description = description;
         this.#dueDate = dueDate;
