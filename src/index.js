@@ -1,10 +1,10 @@
-import {createToDo, displayToDos} from "./home";
+import {createToDo, displayToDos} from "./personal";
 import './style.sass';
 
-createToDo('personal', 'do the laundary', 'tomorrow', 'high');
-createToDo('personal', 'pray your selat', 'tomorrow', 'high');
-createToDo('personal', 'do exercise', 'tomorrow', 'high');
-createToDo('personal', 'create some notes', 'tomorrow', 'high');
+createToDo('do the laundary', 'tomorrow', 'high');
+createToDo('pray your selat', 'tomorrow', 'high');
+createToDo('do exercise', 'tomorrow', 'high');
+createToDo('create some notes', 'tomorrow', 'high');
 
 const todos = displayToDos();
 
