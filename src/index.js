@@ -13,7 +13,7 @@ const divList = document.querySelector('div.list');
 function render() {
 
     todos.forEach(td => {
-        const p = document.createElement('p');
+        const p = document.createElement('button');
         p.textContent = td.getDescription();
         divList.appendChild(p);
     });
@@ -28,7 +28,7 @@ input.addEventListener('focus', event => {
     window.addEventListener('keydown', e => {
         if (e.code === 'Enter' && event.target.value !== '') {
             // create node for the DOM
-            const td = document.createElement('p');
+            const td = document.createElement('button');
             td.textContent = event.target.value;
 
             // Creare an onject and append it to the array
