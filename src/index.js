@@ -10,6 +10,24 @@ const todos = displayToDos();
 
 const divList = document.querySelector('div.list');
 
+function checkClicked(event) {
+    const todo = event.target.parentElement;
+    const button = todo.querySelector('button');
+
+    if ( button.className === 'done-task') {
+        // undo the task
+        button.className = '';
+        /* const todoContainer = todo.parentElement;
+        todoContainer.prepend(todo); */
+    }
+    else {
+        // do the task
+        button.className = 'done-task';
+        /* const todoContainer = todo.parentElement;
+        todoContainer.appendChild(todo); */
+    }
+}
+
 function render() {
 
     todos.forEach(td => {
