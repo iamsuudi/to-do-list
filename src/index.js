@@ -13,18 +13,21 @@ const divList = document.querySelector('div.list');
 function checkClicked(event) {
     const todo = event.target.parentElement;
     const button = todo.querySelector('button');
+    const todoContainer = todo.parentElement;
 
     if ( button.className === 'done-task') {
         // undo the task
         button.className = '';
-        /* const todoContainer = todo.parentElement;
-        todoContainer.prepend(todo); */
+
+        // move it to the top
+        todoContainer.prepend(todo);
     }
     else {
         // do the task
         button.className = 'done-task';
-        /* const todoContainer = todo.parentElement;
-        todoContainer.appendChild(todo); */
+
+        // move it to the bottom
+        todoContainer.appendChild(todo);
     }
 }
 
