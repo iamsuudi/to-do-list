@@ -13,9 +13,19 @@ const divList = document.querySelector('div.list');
 function render() {
 
     todos.forEach(td => {
-        const p = document.createElement('button');
-        p.textContent = td.getDescription();
-        divList.appendChild(p);
+        const div = document.createElement('div');
+        div.className = 'todo';
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.addEventListener('click', checkClicked);
+        div.appendChild(checkbox);
+
+        const button = document.createElement('button');
+        button.textContent = td.getDescription();
+        div.appendChild(button);
+
+        divList.appendChild(div);
     });
 }
 
