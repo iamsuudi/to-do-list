@@ -2,9 +2,9 @@ import ToDo from "./toDo";
 
 const todos = [];
 
-function createToDo(title, description, dueDate, priority) {
+function createToDo(description, dueDate, priority, title) {
     // create to do object
-    const todo = new ToDo(title, description, dueDate, priority);
+    const todo = new ToDo(description, dueDate, priority, title);
 
     // add it to the array
     todos.push(todo);
