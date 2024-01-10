@@ -2,7 +2,7 @@ import ToDo from "./toDo";
 
 const todos = [];
 
-function createToDo(description, dueDate, priority, title) {
+function createToDo(description, dueDate, priority, title = 'personal') {
     // create to do object
     const todo = new ToDo(description, dueDate, priority, title);
 
