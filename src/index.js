@@ -52,7 +52,7 @@ function render() {
 
 render();
 
-const input = document.querySelector('input');
+const input = document.querySelector('div.input input');
 
 // add input listener and render a new todo to the DOM
 input.addEventListener('focus', event => {
