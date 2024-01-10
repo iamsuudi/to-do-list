@@ -58,17 +58,26 @@ const input = document.querySelector('input');
 input.addEventListener('focus', event => {
     window.addEventListener('keydown', e => {
         if (e.code === 'Enter' && event.target.value !== '') {
-            // create node for the DOM
-            const td = document.createElement('button');
-            td.textContent = event.target.value;
+            // create node for the todo
+            const div = document.createElement('div');
+            div.className = 'todo';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.addEventListener('click', checkClicked);
+            div.appendChild(checkbox);
+
+            const button = document.createElement('button');
+            button.textContent = event.target.value;
+            div.appendChild(button);
+            
+            divList.appendChild(div);
 
             // Creare an onject and append it to the array
             createToDo('personal', event.target.value, 'tomorrow', 'medium');
 
             event.target.value = '';
             event.target.blur();
-
-            divList.appendChild(td);
         }
     })
 });
