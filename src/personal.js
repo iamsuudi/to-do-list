@@ -7,7 +7,7 @@ function createToDo(description, dueDate, priority, title = 'personal') {
     const todo = new ToDo(description, dueDate, priority, title);
 
     // add it to the array
-    todos.push(todo);
+    return todos.push(todo);
 }
 
 function displayToDos() {
