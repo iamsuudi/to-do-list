@@ -33,7 +33,7 @@ function checkClicked(event) {
 
 function render() {
 
-    todos.forEach(td => {
+    for(let i = 0; i < todos.length; i += 1) {
         const div = document.createElement('div');
         div.className = 'todo';
 
@@ -43,11 +43,11 @@ function render() {
         div.appendChild(checkbox);
 
         const button = document.createElement('button');
-        button.textContent = td.getDescription();
+        button.textContent = todos[i].getDescription();
         div.appendChild(button);
 
         divList.appendChild(div);
-    });
+    }
 }
 
 render();
