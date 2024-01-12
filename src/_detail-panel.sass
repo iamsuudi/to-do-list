@@ -1,0 +1,87 @@
+
+dialog 
+    background-color: #161616
+    color: white
+    border-radius: 1rem
+    width: 35rem
+    height: 80vh
+    position: relative
+    margin: auto
+    padding: 2rem
+    border: 0
+    &::backdrop
+        background-color: rgba(0, 0, 0, 0.5)
+
+    div.top-tip 
+        color: #8e8e92
+        display: flex
+        justify-content: space-between
+        align-items: center
+
+        p.todo-title
+            font-size: 0.8rem
+            display: inline-flex
+            gap: 1rem
+
+        button
+            background: url('./assets/images/cancel.svg') no-repeat
+            background-size: 2rem
+            border: 0
+            width: 2rem
+            height: 2rem
+
+    p.todo-description 
+        color: white
+        font-size: 1.5rem
+        margin-top: 2rem
+
+    div.options 
+        margin-top: 1rem
+        display: flex
+        gap: 1rem
+        button
+            background-color: #252525
+            border: 0
+            color: white
+            font-size: 0.8rem
+            border-radius: 0.9rem
+            padding: 0.5rem 1rem
+            padding-left: 2.5rem
+            background-repeat: no-repeat
+            background-position-y: center
+            background-position-x: 0.7rem
+            &.remindme 
+                background-image: url('./assets/images/remindme.svg')
+                background-size: 1.5rem
+            &.change-category 
+                background-image: url('./assets/images/category.svg')
+                background-size: 1.3rem
+
+    div.note 
+        margin-top: 2rem
+        h3 
+            font-size: 0.8rem
+            color: #8e8e92
+            font-weight: 500
+            margin-bottom: 1rem
+
+        textarea
+            border: 0
+            outline: 0
+            background: none
+            font-size: 1rem
+            overflow: hidden
+            padding: 0.5rem
+            border-radius: 0.5rem
+            letter-spacing: 2px
+            color: white
+            width: 100%
+            height: fit-content
+            resize: vertical
+
+            &:empty::before
+                content: "Placeholder still possible"
+                color: gray
+            
+            &:hover
+                background-color: black
