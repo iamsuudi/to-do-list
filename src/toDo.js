@@ -9,6 +9,8 @@ export default class ToDo {
 
     #priority;
 
+    #note;
+
     constructor(description, dueDate, priority, title) {
         this.#title = title;
         this.#description = description;
@@ -24,6 +26,8 @@ export default class ToDo {
 
     getPriority = () => this.#priority;
 
+    getNote = () => this.#note;
+
     setTitle (title) {
         this.#title = title;
     }
@@ -38,6 +42,10 @@ export default class ToDo {
 
     setPriority(priority) {
         this.#priority = priority;
+    }
+
+    setNote(note) {
+        this.#note = note;
     }
     
 }
