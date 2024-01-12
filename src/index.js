@@ -69,13 +69,14 @@ input.addEventListener('focus', event => {
             div.appendChild(checkbox);
 
             const button = document.createElement('button');
+            
+            // Creare an onject, append it to the array and return the new length
+            button.dataset.index = createToDo('personal', event.target.value, 'tomorrow', 'medium') - 1;
+
             button.textContent = event.target.value;
             div.appendChild(button);
             
             divList.appendChild(div);
-
-            // Creare an onject and append it to the array
-            createToDo('personal', event.target.value, 'tomorrow', 'medium');
 
             event.target.value = '';
             event.target.blur();
