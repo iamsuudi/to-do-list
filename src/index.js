@@ -69,7 +69,7 @@ input.addEventListener('focus', event => {
             div.appendChild(checkbox);
 
             const button = document.createElement('button');
-            
+
             // Creare an onject, append it to the array and return the new length
             button.dataset.index = createToDo('personal', event.target.value, 'tomorrow', 'medium') - 1;
 
@@ -98,4 +98,11 @@ todoButtons.forEach(btn => {
         note.value = todos[index].getNote();
         dialog.showModal();
     })
+})
+
+// add listener to cancel btn
+const cancelDialogBtn = document.querySelector('dialog button.cancel');
+cancelDialogBtn.addEventListener('click', event => {
+    event.preventDefault();
+    dialog.close();
 })
