@@ -44,6 +44,7 @@ function render() {
 
         const button = document.createElement('button');
         button.textContent = todos[i].getDescription();
+        button.dataset.index = i;
         div.appendChild(button);
 
         divList.appendChild(div);
