@@ -83,3 +83,19 @@ input.addEventListener('focus', event => {
         }
     })
 });
+
+const dialog = document.querySelector('dialog');
+const description = document.querySelector('p[class="todo-description"]');
+const note = document.querySelector('textarea');
+
+// add listener to todo-btns
+const todoButtons = document.querySelectorAll('div.todo button');
+todoButtons.forEach(btn => {
+    btn.addEventListener('click', event => {
+        event.preventDefault();
+        const index = event.target.dataset.index;
+        description.textContent = todos[index].getDescription();
+        note.value = todos[index].getNote();
+        dialog.showModal();
+    })
+})
