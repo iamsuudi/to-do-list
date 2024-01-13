@@ -105,6 +105,7 @@ todoButtons.forEach(btn => {
             todos[index].setNote(note.value);
             todos[index].setDescription(description.value);
             dialog.close();
+            event.target.textContent = description.value;
         })
     })
 }) 
