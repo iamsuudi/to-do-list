@@ -12,19 +12,21 @@ const divList = document.querySelector('div.list');
 
 function checkClicked(event) {
     const todo = event.target.parentElement;
-    const button = todo.querySelector('button');
+    const description = todo.querySelector('button.description');
     const todoContainer = todo.parentElement;
 
-    if ( button.className === 'done-task') {
+    if (description.dataset.status === 'done') {
         // undo the task
-        button.className = '';
+        description.dataset.status = 'not';
+        event.target.dataset.status = 'not';
 
         // move it to the top
         todoContainer.prepend(todo);
     }
     else {
         // do the task
-        button.className = 'done-task';
+        description.dataset.status = 'done';
+        event.target.dataset.status = 'done';
 
         // move it to the bottom
         todoContainer.appendChild(todo);
@@ -37,14 +39,17 @@ function render() {
         const div = document.createElement('div');
         div.className = 'todo';
 
-        const checkbox = document.createElement('input');
-        checkbox.type = 'checkbox';
-        checkbox.addEventListener('click', checkClicked);
-        div.appendChild(checkbox);
+        const btn = document.createElement('button');
+        btn.className = 'done-or-not';
+        btn.addEventListener('click', checkClicked);
+        btn.dataset.status = 'not';
+        div.appendChild(btn);
 
         const button = document.createElement('button');
         button.textContent = todos[i].getDescription();
+        button.className = 'description';
         button.dataset.index = i;
+        button.dataset.status = 'not';
         div.appendChild(button);
 
         divList.appendChild(div);
@@ -90,7 +95,7 @@ const note = document.querySelector('textarea');
 const cancelDialogBtn = document.querySelector('dialog button.cancel');
 
 // add listener to todo-btns
-const todoButtons = document.querySelectorAll('div.todo button');
+const todoButtons = document.querySelectorAll('button.description');
 todoButtons.forEach(btn => {
     btn.addEventListener('click', event => {
         event.preventDefault();
