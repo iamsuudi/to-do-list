@@ -85,7 +85,7 @@ input.addEventListener('focus', event => {
 });
 
 const dialog = document.querySelector('dialog');
-const description = document.querySelector('p[class="todo-description"]');
+const description = document.querySelector('input.todo-description');
 const note = document.querySelector('textarea');
 const cancelDialogBtn = document.querySelector('dialog button.cancel');
 
