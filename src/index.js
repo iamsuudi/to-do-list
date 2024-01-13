@@ -1,5 +1,5 @@
 import {createToDo, displayToDos} from "./personal";
-import './style.sass';
+import './styles/style.sass';
 
 createToDo('do the laundary', 'tomorrow', 'high');
 createToDo('pray your selat', 'tomorrow', 'high');
