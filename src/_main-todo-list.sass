@@ -31,13 +31,30 @@ main
                 cursor: pointer
                 background-color: #424242
 
-            button
+            button.done-or-not
+                box-sizing: border-box
+                width: 1.5rem
+                height: 1.5rem
+                border: 0
+                background: url('./assets/images/radio.svg') no-repeat center
+                outline: none
+                &[data-status="done"]
+                    background: url('./assets/images/done.svg') no-repeat center
+                
+                &:hover
+                    cursor: pointer
+                    transform: scale(1.1)
+
+                &:focus
+                    transform: scale(0.95)
+
+            button.description
                 color: white
                 background: none
                 border: 0
                 font-size: 1rem
                 text-align: left
-                &.done-task
+                &[data-status="done"]
                     color: #8e8e92
                     text-decoration: line-through
                 &:hover
