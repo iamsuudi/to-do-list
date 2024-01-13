@@ -87,6 +87,7 @@ input.addEventListener('focus', event => {
 const dialog = document.querySelector('dialog');
 const description = document.querySelector('p[class="todo-description"]');
 const note = document.querySelector('textarea');
+const cancelDialogBtn = document.querySelector('dialog button.cancel');
 
 // add listener to todo-btns
 const todoButtons = document.querySelectorAll('div.todo button');
@@ -97,12 +98,12 @@ todoButtons.forEach(btn => {
         description.textContent = todos[index].getDescription();
         note.value = todos[index].getNote();
         dialog.showModal();
+        
+        // add listener to cancel btn
+        cancelDialogBtn.addEventListener('click', e => {
+            e.preventDefault();
+            todos[index].setNote(note.value);
+            dialog.close();
+        })
     })
-})
-
-// add listener to cancel btn
-const cancelDialogBtn = document.querySelector('dialog button.cancel');
-cancelDialogBtn.addEventListener('click', event => {
-    event.preventDefault();
-    dialog.close();
-})
+}) 
