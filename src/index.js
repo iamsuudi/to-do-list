@@ -95,7 +95,7 @@ todoButtons.forEach(btn => {
     btn.addEventListener('click', event => {
         event.preventDefault();
         const index = event.target.dataset.index;
-        description.textContent = todos[index].getDescription();
+        description.value = todos[index].getDescription();
         note.value = todos[index].getNote();
         dialog.showModal();
         
@@ -103,6 +103,7 @@ todoButtons.forEach(btn => {
         cancelDialogBtn.addEventListener('click', e => {
             e.preventDefault();
             todos[index].setNote(note.value);
+            todos[index].setDescription(description.value);
             dialog.close();
         })
     })
