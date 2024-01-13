@@ -99,7 +99,7 @@ const todoButtons = document.querySelectorAll('button.description');
 todoButtons.forEach(btn => {
     btn.addEventListener('click', event => {
         event.preventDefault();
-        const index = event.target.dataset.index;
+        const {index} = event.target.dataset;
         description.value = todos[index].getDescription();
         note.value = todos[index].getNote();
         dialog.showModal();
