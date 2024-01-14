@@ -9,29 +9,51 @@ createToDo('create some notes', 'tomorrow', 'high');
 const todos = displayToDos();
 
 const divList = document.querySelector('div.list');
+const dialog = document.querySelector('dialog');
+const description = document.querySelector('input.todo-description');
+const note = document.querySelector('textarea#note');
+const cancelDialogBtn = document.querySelector('dialog button.cancel');
 
 function checkClicked(event) {
     const todo = event.target.parentElement;
-    const description = todo.querySelector('button.description');
-    const todoContainer = todo.parentElement;
+    const descBtn = todo.querySelector('button.description');
 
-    if (description.dataset.status === 'done') {
+    if (descBtn.dataset.status === 'done') {
         // undo the task
-        description.dataset.status = 'not';
+        descBtn.dataset.status = 'not';
         event.target.dataset.status = 'not';
 
         // move it to the top
-        todoContainer.prepend(todo);
+        divList.prepend(todo);
     }
     else {
         // do the task
-        description.dataset.status = 'done';
+        descBtn.dataset.status = 'done';
         event.target.dataset.status = 'done';
 
         // move it to the bottom
-        todoContainer.appendChild(todo);
+        divList.appendChild(todo);
     }
 }
+
+function todoClicked(event) {
+    event.preventDefault();
+    const {index} = event.target.dataset;
+    description.value = todos[index].getDescription();
+    note.value = todos[index].getNote();
+    dialog.showModal();
+    dialog.dataset.index = index;
+}
+
+// add listener to cancel btn
+cancelDialogBtn.addEventListener('click', e => {
+    e.preventDefault();
+    const {index} = dialog.dataset;
+    todos[index].setNote(note.value);
+    todos[index].setDescription(description.value);
+    dialog.close();
+    document.querySelector(`button.description[data-index="${index}"]`).textContent = description.value;
+});
 
 function render() {
 
@@ -50,6 +72,7 @@ function render() {
         button.className = 'description';
         button.dataset.index = i;
         button.dataset.status = 'not';
+        button.addEventListener('click', todoClicked);
         div.appendChild(button);
 
         divList.appendChild(div);
@@ -68,17 +91,21 @@ input.addEventListener('focus', event => {
             const div = document.createElement('div');
             div.className = 'todo';
 
-            const checkbox = document.createElement('input');
-            checkbox.type = 'checkbox';
-            checkbox.addEventListener('click', checkClicked);
-            div.appendChild(checkbox);
+            const btn = document.createElement('button');
+            btn.className = 'done-or-not';
+            btn.addEventListener('click', checkClicked);
+            btn.dataset.status = 'not';
+            div.appendChild(btn);
 
             const button = document.createElement('button');
+            button.className = 'description';
+            button.dataset.status = 'not';
 
             // Creare an onject, append it to the array and return the new length
             button.dataset.index = createToDo('personal', event.target.value, 'tomorrow', 'medium') - 1;
 
             button.textContent = event.target.value;
+            button.addEventListener('click', todoClicked);
             div.appendChild(button);
             
             divList.appendChild(div);
@@ -88,29 +115,3 @@ input.addEventListener('focus', event => {
         }
     })
 });
-
-const dialog = document.querySelector('dialog');
-const description = document.querySelector('input.todo-description');
-const note = document.querySelector('textarea');
-const cancelDialogBtn = document.querySelector('dialog button.cancel');
-
-// add listener to todo-btns
-const todoButtons = document.querySelectorAll('button.description');
-todoButtons.forEach(btn => {
-    btn.addEventListener('click', event => {
-        event.preventDefault();
-        const {index} = event.target.dataset;
-        description.value = todos[index].getDescription();
-        note.value = todos[index].getNote();
-        dialog.showModal();
-        
-        // add listener to cancel btn
-        cancelDialogBtn.addEventListener('click', e => {
-            e.preventDefault();
-            todos[index].setNote(note.value);
-            todos[index].setDescription(description.value);
-            dialog.close();
-            event.target.textContent = description.value;
-        })
-    })
-}) 
