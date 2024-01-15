@@ -10,6 +10,8 @@ export default class ToDo {
     #priority;
 
     #note = '';
+    
+    #status = 'pending';
 
     constructor(title, description, dueDate, priority) {
         this.#title = title;
@@ -27,6 +29,8 @@ export default class ToDo {
     getPriority = () => this.#priority;
 
     getNote = () => this.#note;
+
+    getStatus = () => this.#status;
 
     setTitle (title) {
         this.#title = title;
@@ -48,4 +52,7 @@ export default class ToDo {
         this.#note = note;
     }
     
+    setStatus(status) {
+        this.#status = status;
+    }
 }
