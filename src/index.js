@@ -60,16 +60,7 @@ function todoClicked(event) {
     dialog.dataset.index = index;
 }
 
-// add listener to cancel btn
-cancelDialogBtn.addEventListener('click', e => {
-    e.preventDefault();
-    const {index} = dialog.dataset;
-    todos[index].setNote(note.value);
-    todos[index].setDescription(description.value);
-    dialog.close();
-    document.querySelector(`button.description[data-index="${index}"]`).textContent = description.value;
-});
-
+// load todos in a project
 function render() {
 
     for(let i = 0; i < todos.length; i += 1) {
@@ -77,16 +68,16 @@ function render() {
         div.className = 'todo';
 
         const btn = document.createElement('button');
-        btn.className = 'done-or-not';
+        btn.className = 'status-checker';
         btn.addEventListener('click', checkClicked);
-        btn.dataset.status = 'not';
+        btn.dataset.status = todos[i].getStatus();
         div.appendChild(btn);
 
         const button = document.createElement('button');
         button.textContent = todos[i].getDescription();
         button.className = 'description';
         button.dataset.index = i;
-        button.dataset.status = 'not';
+        button.dataset.status = todos[i].getStatus();
         button.addEventListener('click', todoClicked);
         div.appendChild(button);
 
