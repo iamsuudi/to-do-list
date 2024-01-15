@@ -124,3 +124,16 @@ input.addEventListener('focus', event => {
         }
     })
 });
+
+// a function which responds when project button clicked
+function projectClicked(event) {
+    const {target} = event;
+
+    titleOfProject = target.className;
+    todos = displayProjectToDos(titleOfProject);
+    divList.innerHTML = '';
+    render();
+}
+
+// add listerner to projects buttons
+projects.addEventListener('click', projectClicked);
