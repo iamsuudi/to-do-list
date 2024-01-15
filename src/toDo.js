@@ -11,7 +11,7 @@ export default class ToDo {
 
     #note = '';
 
-    constructor(description, dueDate, priority, title) {
+    constructor(title, description, dueDate, priority) {
         this.#title = title;
         this.#description = description;
         this.#dueDate = dueDate;
