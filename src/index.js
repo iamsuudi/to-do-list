@@ -5,12 +5,26 @@ let titleOfProject = 'personal';
 
 const todos = displayToDos();
 
+const projects = document.querySelector('div.projects');
+let todos = displayProjectToDos(titleOfProject);
 const divList = document.querySelector('div.list');
 const dialog = document.querySelector('dialog');
 const description = document.querySelector('input.todo-description');
 const note = document.querySelector('textarea#note');
 const cancelDialogBtn = document.querySelector('dialog button.cancel');
 
+// load projects
+window.addEventListener('DOMContentLoaded', () => {
+    const btn = document.createElement('button');
+    const titles = projectTitles();
+    for(let i = 0; i < titles.length; i += 1) {
+        btn.className = titles[i].toLowerCase();
+        btn.textContent = titles[i];
+        projects.appendChild(btn.cloneNode());
+    }
+});
+
+// a function which responds to todo done checker
 function checkClicked(event) {
     const todo = event.target.parentElement;
     const descBtn = todo.querySelector('button.description');
