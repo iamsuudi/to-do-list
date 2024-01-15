@@ -1,10 +1,7 @@
 import {createToDo, displayAllToDos, displayProjectToDos, addProject, projectTitles} from "./project";
 import './styles/style.sass';
 
-createToDo('do the laundary', 'tomorrow', 'high');
-createToDo('pray your selat', 'tomorrow', 'high');
-createToDo('do exercise', 'tomorrow', 'high');
-createToDo('create some notes', 'tomorrow', 'high');
+let titleOfProject = 'personal';
 
 const todos = displayToDos();
 
