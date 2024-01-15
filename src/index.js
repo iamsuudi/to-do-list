@@ -92,25 +92,28 @@ const input = document.querySelector('div.input input');
 // add input listener and render a new todo to the DOM
 input.addEventListener('focus', event => {
     window.addEventListener('keydown', e => {
-        if (e.code === 'Enter' && event.target.value !== '') {
+        const content = event.target.value;
+        if (e.code === 'Enter' && content !== '') {
+            // Creare an onject, append it to the array and return the new length
+            const index = createToDo(titleOfProject, content, 'tomorrow', 'medium') - 1;
+            
             // create node for the todo
             const div = document.createElement('div');
             div.className = 'todo';
-
+            
             const btn = document.createElement('button');
             btn.className = 'status-checker';
             btn.addEventListener('click', checkClicked);
-            btn.dataset.status = 'not';
+            btn.dataset.status = todos[index].getStatus();
             div.appendChild(btn);
-
+            
             const button = document.createElement('button');
             button.className = 'description';
-            button.dataset.status = 'not';
+            button.dataset.index = index;
+            button.dataset.status = todos[index].getStatus();
 
-            // Creare an onject, append it to the array and return the new length
-            button.dataset.index = createToDo('personal', event.target.value, 'tomorrow', 'medium') - 1;
 
-            button.textContent = event.target.value;
+            button.textContent = content;
             button.addEventListener('click', todoClicked);
             div.appendChild(button);
             
