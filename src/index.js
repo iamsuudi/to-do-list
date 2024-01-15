@@ -92,7 +92,7 @@ input.addEventListener('focus', event => {
             div.className = 'todo';
 
             const btn = document.createElement('button');
-            btn.className = 'done-or-not';
+            btn.className = 'status-checker';
             btn.addEventListener('click', checkClicked);
             btn.dataset.status = 'not';
             div.appendChild(btn);
