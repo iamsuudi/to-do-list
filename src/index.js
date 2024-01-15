@@ -3,8 +3,6 @@ import './styles/style.sass';
 
 let titleOfProject = 'personal';
 
-const todos = displayToDos();
-
 const projects = document.querySelector('div.projects');
 let todos = displayProjectToDos(titleOfProject);
 const divList = document.querySelector('div.list');
@@ -12,6 +10,7 @@ const dialog = document.querySelector('dialog');
 const description = document.querySelector('input.todo-description');
 const note = document.querySelector('textarea#note');
 const cancelDialogBtn = document.querySelector('dialog button.cancel');
+const input = document.querySelector('div.input input');
 
 // load projects
 window.addEventListener('DOMContentLoaded', () => {
@@ -87,7 +86,16 @@ function render() {
 
 render();
 
-const input = document.querySelector('div.input input');
+
+// add listener to cancel btn
+cancelDialogBtn.addEventListener('click', e => {
+    e.preventDefault();
+    const {index} = dialog.dataset;
+    todos[index].setNote(note.value);
+    todos[index].setDescription(description.value);
+    dialog.close();
+    document.querySelector(`button.description[data-index="${index}"]`).textContent = description.value;
+});
 
 // add input listener and render a new todo to the DOM
 input.addEventListener('focus', event => {
