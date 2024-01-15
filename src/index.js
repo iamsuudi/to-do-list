@@ -27,20 +27,24 @@ window.addEventListener('DOMContentLoaded', () => {
 // a function which responds to todo done checker
 function checkClicked(event) {
     const todo = event.target.parentElement;
-    const descBtn = todo.querySelector('button.description');
+    const checkerBtn = event.target;
+    const todoNameBtn = todo.querySelector('button.description');
+    const {index} = todoNameBtn.dataset;
 
-    if (descBtn.dataset.status === 'done') {
+    if (todos[index].getStatus() === 'done') {
         // undo the task
-        descBtn.dataset.status = 'not';
-        event.target.dataset.status = 'not';
+        todoNameBtn.dataset.status = 'pending';
+        checkerBtn.dataset.status = 'pending';
+        todos[index].setStatus('pending');
 
         // move it to the top
         divList.prepend(todo);
     }
     else {
         // do the task
-        descBtn.dataset.status = 'done';
-        event.target.dataset.status = 'done';
+        todoNameBtn.dataset.status = 'done';
+        checkerBtn.dataset.status = 'done';
+        todos[index].setStatus('done');
 
         // move it to the bottom
         divList.appendChild(todo);
