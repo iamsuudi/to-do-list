@@ -1,4 +1,4 @@
-import {createToDo, displayToDos} from "./personal";
+import {createToDo, displayAllToDos, displayProjectToDos, addProject, projectTitles} from "./project";
 import './styles/style.sass';
 
 createToDo('do the laundary', 'tomorrow', 'high');
