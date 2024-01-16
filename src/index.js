@@ -14,12 +14,12 @@ const input = document.querySelector('div.input input');
 
 // load projects
 window.addEventListener('DOMContentLoaded', () => {
-    const btn = document.createElement('button');
     const titles = projectTitles();
     for(let i = 0; i < titles.length; i += 1) {
+        const btn = document.createElement('button');
         btn.className = titles[i].toLowerCase();
-        btn.textContent = titles[i];
-        projects.appendChild(btn.cloneNode());
+        btn.innerHTML = titles[i].toUpperCase();
+        projects.appendChild(btn);
     }
 });
 
