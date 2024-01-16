@@ -12,13 +12,6 @@ const note = document.querySelector('textarea#note');
 const cancelDialogBtn = document.querySelector('dialog button.cancel');
 const input = document.querySelector('div.input input');
 
-// load projects
-window.addEventListener('DOMContentLoaded', () => {
-    const titles = projectTitles();
-    for(let i = 0; i < titles.length; i += 1) {
-        addProjectToDOM(titles[i]);
-    }
-});
 
 // a function which responds to todo done checker
 function checkClicked(event) {
@@ -55,6 +48,80 @@ function todoClicked(event) {
     dialog.showModal();
     dialog.dataset.index = index;
 }
+
+// a function which responds when project button clicked
+function projectClicked(event) {
+    const {target} = event;
+
+    titleOfProject = target.className;
+    todos = displayProjectToDos(titleOfProject);
+    divList.innerHTML = '';
+    render();
+}
+
+function addProjectToDOM(title) {
+    // create project div node
+    const proj = document.createElement('div');
+    proj.classList.add(title.toLowerCase(), 'project');
+
+    // add title button
+    const titleBtn = document.createElement('button');
+    titleBtn.className = title.toLowerCase();
+    titleBtn.textContent = title.toUpperCase();
+    proj.appendChild(titleBtn);
+
+    // add delete button
+    const delBtn = document.createElement('button');
+    delBtn.classList.add(title.toLowerCase(), 'small');
+    proj.appendChild(delBtn);
+    
+    // add listener for hovered state to display delete button
+    proj.addEventListener('pointerover', () => {
+        delBtn.style.visibility = 'visible';
+    })
+
+    // add listener for unhovered state to hide delete button
+    proj.addEventListener('pointerleave', () => {
+        delBtn.style.visibility = 'hidden';
+    })
+
+    // add listener for clicked to render its todos
+    proj.addEventListener('click', projectClicked);
+
+    projects.appendChild(proj);
+}
+
+function addTodoToDOM(todo, index) {
+    // create todo div node
+    const todoNode = document.createElement('div');
+    todoNode.className = 'todo';
+
+    // create todo status checker button
+    const btn = document.createElement('button');
+    btn.className = 'status-checker';
+    btn.addEventListener('click', checkClicked);   // change appearance when clicked
+    btn.dataset.status = todo.getStatus();
+    todoNode.appendChild(btn);
+
+    // create todo name button
+    const button = document.createElement('button');
+    button.textContent = todo.getDescription();
+    button.className = 'description';
+    button.dataset.index = index;
+    button.dataset.status = todo.getStatus();
+    button.addEventListener('click', todoClicked);  // open detail when clicked
+    todoNode.appendChild(button);
+
+    divList.appendChild(todoNode);
+}
+
+// load projects
+window.addEventListener('DOMContentLoaded', () => {
+    const titles = projectTitles();
+    for(let i = 0; i < titles.length; i += 1) {
+        addProjectToDOM(titles[i]);
+    }
+});
 
 // load todos in a project
 function render() {
@@ -97,17 +164,6 @@ input.addEventListener('focus', event => {
     })
 });
 
-// a function which responds when project button clicked
-function projectClicked(event) {
-    const {target} = event;
-
-    titleOfProject = target.className;
-    todos = displayProjectToDos(titleOfProject);
-    divList.innerHTML = '';
-    render();
-}
-
-
 // add listener to projects header button for hovering effect
 const projectsHeader = document.querySelector('div.projects-top');
 projectsHeader.addEventListener('pointerover', () => {
@@ -120,7 +176,6 @@ projectsHeader.addEventListener('pointerleave', () => {
     const addBtn = projectsHeader.querySelector('button.small');
     addBtn.style.visibility = 'hidden';
 });
-
 
 // add listener to priority header button for hovering effect
 const priorityHeader = document.querySelector('div.priority');
