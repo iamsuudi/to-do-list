@@ -69,22 +69,34 @@ aside
         &:hover
             background-color: #525252
 
-    button
-        border: 0
-        padding: 1rem 2rem
-        width: 15rem
-        background: none
-        color: darkgrey
-        font-size: 0.8rem
-        text-align: left
-        &.setting
-            margin-top: auto
+button
+    border: 0
+    height: fit-content
+    background: none
+    color: darkgrey
+    font-size: 0.8rem
+    text-align: left
+    &.setting
+        margin-top: auto
+        padding: 0.5rem 1rem
+    &.my-lists, &.priority, &.setting
+        font-size: 1.25rem
+        font-weight: 700
+        color: white
+    &.small
+        width: 1.5rem
+        height: 1.5rem
+        background: url('../assets/images/delete.svg') no-repeat center
+        visibility: hidden
         &:hover
-            background-color: #525252
-            cursor: pointer
-
-
-button.my-lists, .priority, .setting
-    font-size: 1.25rem
-    font-weight: 700
-    color: white
+            background: url('../assets/images/delete-focus.svg') no-repeat center
+        &.add-project
+            background: url('../assets/images/addProject.svg') no-repeat center
+            &:hover
+                background: url('../assets/images/addProject-focus.svg') no-repeat center
+        &.edit-priority
+            background: url('../assets/images/priority.svg') no-repeat center
+            &:hover
+                background: url('../assets/images/priority-focus.svg') no-repeat center
+    &:hover
+        cursor: pointer
