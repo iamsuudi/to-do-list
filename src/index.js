@@ -62,25 +62,8 @@ function todoClicked(event) {
 // load todos in a project
 function render() {
 
-    for(let i = 0; i < todos.length; i += 1) {
-        const div = document.createElement('div');
-        div.className = 'todo';
-
-        const btn = document.createElement('button');
-        btn.className = 'status-checker';
-        btn.addEventListener('click', checkClicked);
-        btn.dataset.status = todos[i].getStatus();
-        div.appendChild(btn);
-
-        const button = document.createElement('button');
-        button.textContent = todos[i].getDescription();
-        button.className = 'description';
-        button.dataset.index = i;
-        button.dataset.status = todos[i].getStatus();
-        button.addEventListener('click', todoClicked);
-        div.appendChild(button);
-
-        divList.appendChild(div);
+    for(let index = 0; index < todos.length; index += 1) {
+        addTodoToDOM(todos[index], index);
     }
 }
 
@@ -99,33 +82,17 @@ cancelDialogBtn.addEventListener('click', e => {
 
 // add input listener and render a new todo to the DOM
 input.addEventListener('focus', event => {
+
     window.addEventListener('keydown', e => {
+
         const content = event.target.value;
+
         if (e.code === 'Enter' && content !== '') {
-            // Creare an onject, append it to the array and return the new length
+            // Creare a todo object, append it to the array and return the new length
             const index = createToDo(titleOfProject, content, 'tomorrow', 'medium') - 1;
             
             // create node for the todo
-            const div = document.createElement('div');
-            div.className = 'todo';
-            
-            const btn = document.createElement('button');
-            btn.className = 'status-checker';
-            btn.addEventListener('click', checkClicked);
-            btn.dataset.status = todos[index].getStatus();
-            div.appendChild(btn);
-            
-            const button = document.createElement('button');
-            button.className = 'description';
-            button.dataset.index = index;
-            button.dataset.status = todos[index].getStatus();
-
-
-            button.textContent = content;
-            button.addEventListener('click', todoClicked);
-            div.appendChild(button);
-            
-            divList.appendChild(div);
+            addTodoToDOM(todos[index], index);
 
             event.target.value = '';
             event.target.blur();
