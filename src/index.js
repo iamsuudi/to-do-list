@@ -115,6 +115,47 @@ function addTodoToDOM(todo, index) {
     divList.appendChild(todoNode);
 }
 
+function createProject() {
+    const projInput = document.querySelector('div.new-project');
+    if (projInput.innerHTML === '') {
+
+        projInput.style.visibility = 'visible';
+        const inp = document.createElement('input');
+        inp.type = 'text';
+        inp.placeholder = 'Enter name';
+        projInput.appendChild(inp);
+    
+        inp.addEventListener('focus', event => {
+    
+            window.addEventListener('keydown', e => {
+                const content = event.target.value;
+        
+                if (e.key === 'Enter' && content !== '') {
+                    // add title to the projects list.
+                    // initialize the todos[title] list
+                    addProject(content.toLowerCase());
+                    
+                    // add it to the DOM
+                    addProjectToDOM(content.toLowerCase());
+        
+                    event.target.value = '';
+                    event.target.blur();
+                    projInput.innerHTML = '';
+                    projInput.style.visibility = 'hidden';
+                }
+                else if (e.key === 'Escape') {
+                    event.target.value = '';
+                    event.target.blur();
+                    projInput.innerHTML = '';
+                    projInput.style.visibility = 'hidden';
+                }
+            })
+        });
+
+        inp.focus();
+    }
+}
+
 // load projects
 window.addEventListener('DOMContentLoaded', () => {
     const titles = projectTitles();
