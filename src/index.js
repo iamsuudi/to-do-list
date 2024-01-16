@@ -16,10 +16,7 @@ const input = document.querySelector('div.input input');
 window.addEventListener('DOMContentLoaded', () => {
     const titles = projectTitles();
     for(let i = 0; i < titles.length; i += 1) {
-        const btn = document.createElement('button');
-        btn.className = titles[i].toLowerCase();
-        btn.innerHTML = titles[i].toUpperCase();
-        projects.appendChild(btn);
+        addProjectToDOM(titles[i]);
     }
 });
 
