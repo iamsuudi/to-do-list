@@ -22,6 +22,53 @@ aside
             font-size: 1.2rem
             font-weight: 700
 
+    div.projects-top
+        width: 100%
+        padding: 0.5rem 1rem
+        display: grid
+        grid-template-columns: 1fr 1.5rem
+        align-items: center
+        &:hover
+            background-color: #525252
+    div.new-project
+        width: 100%
+        visibility: hidden
+        // margin-top: 1rem
+        input
+            // height: 1rem
+            width: 100%
+            padding: 0.7rem 2rem
+            background-color: #303030
+            outline: 0
+            border: 0
+            font-size: 1.1rem
+            color: white
+            &::placeholder
+                font-size: 1rem
+                color: #8e8e92
+            &:focus
+                outline: 0.1rem solid #0083ff
+                outline-offset: -0.1rem
+    div.projects
+        display: flex
+        flex-direction: column
+        div.project
+            padding: 0.5rem 1rem
+            padding-left: 2rem
+            display: grid
+            grid-template-columns: 1fr 1.5rem
+            align-items: center
+            &:hover
+                background-color: #525252
+
+    div.priority
+        padding: 0.5rem 1rem
+        display: grid
+        grid-template-columns: 1fr 1.5rem
+        align-items: center
+        &:hover
+            background-color: #525252
+
     button
         border: 0
         padding: 1rem 2rem
