@@ -1,4 +1,4 @@
-import {createToDo, displayAllToDos, displayProjectToDos, addProject, projectTitles} from "./project";
+import {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles} from "./project";
 import './styles/style.sass';
 
 let titleOfProject = 'personal';
@@ -172,7 +172,7 @@ function createProject() {
 
 // load projects
 window.addEventListener('DOMContentLoaded', () => {
-    const titles = projectTitles();
+    const titles = getProjectTitles();
     for(let i = 0; i < titles.length; i += 1) {
         addProjectToDOM(titles[i]);
     }

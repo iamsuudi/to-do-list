@@ -25,7 +25,7 @@ function addProject(title) {
     todos[title] = [];
 }
 
-function projectTitles() {
+function getProjectTitles() {
     return projects;
 }
 
@@ -52,4 +52,4 @@ createToDo('grocery', 'Buy salad', 'today', 'high');
 createToDo('grocery', 'Buy some milk', 'tomorrow', 'high');
 
 
-export {createToDo, displayAllToDos, displayProjectToDos, addProject, projectTitles};
+export {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles};
