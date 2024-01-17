@@ -1,10 +1,11 @@
-import {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles} from "./project";
+import {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles, deleteProject} from "./project";
 import './styles/style.sass';
 
 let titleOfProject = 'personal';
 
 const projects = document.querySelector('div.projects');
 let todos = displayProjectToDos(titleOfProject);
+let titles = getProjectTitles();
 const divList = document.querySelector('div.list');
 const dialog = document.querySelector('dialog');
 const description = document.querySelector('input.todo-description');
@@ -50,6 +51,9 @@ function todoClicked(event) {
 }
 
 function addTodoToDOM(todo, index) {
+
+    divList.className = 'list';
+
     // create todo div node
     const todoNode = document.createElement('div');
     todoNode.className = 'todo';
@@ -71,13 +75,15 @@ function addTodoToDOM(todo, index) {
     todoNode.appendChild(button);
 
     divList.appendChild(todoNode);
+
+    divList.classList.add(todo.getTitle());
 }
 
 // a function which responds when project button clicked
 function projectClicked(event) {
-    const {target} = event;
+    const proj = event.target;
 
-    titleOfProject = target.className;
+    titleOfProject = proj.className;
     todos = displayProjectToDos(titleOfProject);
     divList.innerHTML = '';
 
@@ -97,6 +103,29 @@ function displayAllTodosCreated() {
     }
 }
 
+function deleteProjectFromDOM(event) {
+    const proj = event.target.parentElement;
+    
+    const indexOfProject = titles.indexOf(proj.classList[0]);
+
+    // delete object first
+    deleteProject(proj.classList[0]);
+
+    // remove from DOM
+    proj.remove();
+    
+    // check if the currently displayed todos are of this project
+    if (divList.classList[1] === proj.classList[0]) {
+        
+        divList.innerHTML = '';
+        todos = displayProjectToDos(titles[indexOfProject]);
+
+        // load todos in a project
+        for(let index = 0; index < todos.length; index += 1)
+            addTodoToDOM(todos[index], index);
+    }
+}
+
 function addProjectToDOM(title) {
     // create project div node
     const proj = document.createElement('div');
@@ -111,6 +140,7 @@ function addProjectToDOM(title) {
     // add delete button
     const delBtn = document.createElement('button');
     delBtn.classList.add(title.toLowerCase(), 'small');
+    delBtn.addEventListener('click', deleteProjectFromDOM);
     proj.appendChild(delBtn);
     
     // add listener for hovered state to display delete button
@@ -124,7 +154,7 @@ function addProjectToDOM(title) {
     })
 
     // add listener for clicked to render its todos
-    proj.addEventListener('click', projectClicked);
+    titleBtn.addEventListener('click', projectClicked);
 
     projects.appendChild(proj);
 }
@@ -172,10 +202,10 @@ function createProject() {
 
 // load projects
 window.addEventListener('DOMContentLoaded', () => {
-    const titles = getProjectTitles();
-    for(let i = 0; i < titles.length; i += 1) {
+    
+    for(let i = 0; i < titles.length; i += 1)
         addProjectToDOM(titles[i]);
-    }
+    
 });
 
 // load todos in a project
