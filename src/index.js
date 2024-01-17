@@ -5,7 +5,7 @@ let titleOfProject = 'personal';
 
 const projects = document.querySelector('div.projects');
 let todos = displayProjectToDos(titleOfProject);
-let titles = getProjectTitles();
+const titles = getProjectTitles();
 const divList = document.querySelector('div.list');
 const dialog = document.querySelector('dialog');
 const description = document.querySelector('input.todo-description');
