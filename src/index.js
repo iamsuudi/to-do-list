@@ -87,6 +87,16 @@ function projectClicked(event) {
     }
 }
 
+function displayAllTodosCreated() {
+    divList.innerHTML = '';
+    todos = displayAllToDos();
+
+    // load todos
+    for(let index = 0; index < todos.length; index += 1) {
+        addTodoToDOM(todos[index], index);
+    }
+}
+
 function addProjectToDOM(title) {
     // create project div node
     const proj = document.createElement('div');
@@ -173,6 +183,9 @@ for(let index = 0; index < todos.length; index += 1) {
     addTodoToDOM(todos[index], index);
 }
 
+// add listener to all-todos btn
+const allTodoBtn = document.querySelector('button.all-todos');
+allTodoBtn.addEventListener('click', displayAllTodosCreated);
 
 // add listener to cancel btn
 cancelDialogBtn.addEventListener('click', e => {
