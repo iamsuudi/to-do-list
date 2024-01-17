@@ -79,13 +79,6 @@ button
     color: darkgrey
     font-size: 0.8rem
     text-align: left
-    &.setting
-        margin-top: auto
-        padding: 0.5rem 1rem
-    &.my-lists, &.priority, &.setting
-        font-size: 1.25rem
-        font-weight: 700
-        color: white
     &.small
         width: 1.5rem
         height: 1.5rem
@@ -108,6 +101,10 @@ button
                 background: url('../assets/images/priority-focus.svg') no-repeat center
             &:active
                 background: url('../assets/images/addProject-active.svg') no-repeat center
+
+button
+    &.setting
+        padding: 1rem
         &:hover
             cursor: pointer
             background-color: #525252
