@@ -49,6 +49,30 @@ function todoClicked(event) {
     dialog.dataset.index = index;
 }
 
+function addTodoToDOM(todo, index) {
+    // create todo div node
+    const todoNode = document.createElement('div');
+    todoNode.className = 'todo';
+
+    // create todo status checker button
+    const btn = document.createElement('button');
+    btn.className = 'status-checker';
+    btn.addEventListener('click', checkClicked);   // change appearance when clicked
+    btn.dataset.status = todo.getStatus();
+    todoNode.appendChild(btn);
+
+    // create todo name button
+    const button = document.createElement('button');
+    button.textContent = todo.getDescription();
+    button.className = 'description';
+    button.dataset.index = index;
+    button.dataset.status = todo.getStatus();
+    button.addEventListener('click', todoClicked);  // open detail when clicked
+    todoNode.appendChild(button);
+
+    divList.appendChild(todoNode);
+}
+
 // a function which responds when project button clicked
 function projectClicked(event) {
     const {target} = event;
@@ -56,7 +80,11 @@ function projectClicked(event) {
     titleOfProject = target.className;
     todos = displayProjectToDos(titleOfProject);
     divList.innerHTML = '';
-    render();
+
+    // load todos in a project
+    for(let index = 0; index < todos.length; index += 1) {
+        addTodoToDOM(todos[index], index);
+    }
 }
 
 function addProjectToDOM(title) {
@@ -89,30 +117,6 @@ function addProjectToDOM(title) {
     proj.addEventListener('click', projectClicked);
 
     projects.appendChild(proj);
-}
-
-function addTodoToDOM(todo, index) {
-    // create todo div node
-    const todoNode = document.createElement('div');
-    todoNode.className = 'todo';
-
-    // create todo status checker button
-    const btn = document.createElement('button');
-    btn.className = 'status-checker';
-    btn.addEventListener('click', checkClicked);   // change appearance when clicked
-    btn.dataset.status = todo.getStatus();
-    todoNode.appendChild(btn);
-
-    // create todo name button
-    const button = document.createElement('button');
-    button.textContent = todo.getDescription();
-    button.className = 'description';
-    button.dataset.index = index;
-    button.dataset.status = todo.getStatus();
-    button.addEventListener('click', todoClicked);  // open detail when clicked
-    todoNode.appendChild(button);
-
-    divList.appendChild(todoNode);
 }
 
 function createProject() {
@@ -165,14 +169,9 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 // load todos in a project
-function render() {
-
-    for(let index = 0; index < todos.length; index += 1) {
-        addTodoToDOM(todos[index], index);
-    }
+for(let index = 0; index < todos.length; index += 1) {
+    addTodoToDOM(todos[index], index);
 }
-
-render();
 
 
 // add listener to cancel btn
