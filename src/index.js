@@ -52,8 +52,6 @@ function todoClicked(event) {
 
 function addTodoToDOM(todo, index) {
 
-    divList.className = 'list';
-
     // create todo div node
     const todoNode = document.createElement('div');
     todoNode.className = 'todo';
@@ -81,6 +79,9 @@ function addTodoToDOM(todo, index) {
 
 // a function which responds when project button clicked
 function projectClicked(event) {
+    
+    divList.className = 'list';
+
     const proj = event.target;
 
     titleOfProject = proj.className;
@@ -94,9 +95,12 @@ function projectClicked(event) {
 
     // disable input
     input.removeAttribute('disabled');
+
+    divList.classList.add(titleOfProject);
 }
 
-function displayAllTodosCreated() {
+function displayAllTodosCreated() {    
+    divList.classList[1] = 'all-todos';
     divList.innerHTML = '';
     todos = displayAllToDos();
 
