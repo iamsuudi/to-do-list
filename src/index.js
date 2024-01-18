@@ -19,13 +19,13 @@ function checkClicked(event) {
     const todo = event.target.parentElement;
     const checkerBtn = event.target;
     const todoNameBtn = todo.querySelector('button.description');
-    const {index} = todoNameBtn.dataset;
+    const {todoIndex} = todoNameBtn.dataset;
 
-    if (todos[index].getStatus() === 'done') {
+    if (todos[todoIndex].getStatus() === 'done') {
         // undo the task
         todoNameBtn.dataset.status = 'pending';
         checkerBtn.dataset.status = 'pending';
-        todos[index].setStatus('pending');
+        todos[todoIndex].setStatus('pending');
 
         // move it to the top
         divList.prepend(todo);
@@ -34,7 +34,7 @@ function checkClicked(event) {
         // do the task
         todoNameBtn.dataset.status = 'done';
         checkerBtn.dataset.status = 'done';
-        todos[index].setStatus('done');
+        todos[todoIndex].setStatus('done');
 
         // move it to the bottom
         divList.appendChild(todo);
@@ -43,9 +43,10 @@ function checkClicked(event) {
 
 function todoClicked(event) {
     event.preventDefault();
-    const {index} = event.target.dataset;
-    description.value = todos[index].getDescription();
-    note.value = todos[index].getNote();
+    const todo = event.target;
+    const {todoIndex} = todo.dataset;
+    description.value = todos[todoIndex].getDescription();
+    note.value = todos[todoIndex].getNote();
     dialog.showModal();
     dialog.dataset.index = index;
 }
@@ -67,7 +68,8 @@ function addTodoToDOM(todo, index) {
     const button = document.createElement('button');
     button.textContent = todo.getDescription();
     button.className = 'description';
-    button.dataset.index = index;
+    button.dataset.todoIndex = index;
+    button.dataset.todoTitle = todo.getTitle();
     button.dataset.status = todo.getStatus();
     button.addEventListener('click', todoClicked);  // open detail when clicked
     todoNode.appendChild(button);
@@ -230,9 +232,9 @@ allTodoBtn.addEventListener('click', displayAllTodosCreated);
 // add listener to cancel btn
 cancelDialogBtn.addEventListener('click', e => {
     e.preventDefault();
-    const {index} = dialog.dataset;
-    todos[index].setNote(note.value);
-    todos[index].setDescription(description.value);
+    const {todoIndex} = dialog.dataset;
+    todos[todoIndex].setNote(note.value);
+    todos[todoIndex].setDescription(description.value);
     dialog.close();
     document.querySelector(`button.description[data-index="${index}"]`).textContent = description.value;
 });
