@@ -1,4 +1,4 @@
-import {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles, deleteProject} from "./project";
+import {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles, deleteProject, deleteTodo} from "./project";
 import './styles/style.sass';
 
 let titleOfProject = 'personal';

@@ -39,6 +39,11 @@ function deleteProject(title) {
     projects.splice(index, 1);
 }
 
+function deleteTodo(title, todoDecription) {
+    const index = todos[title].indexOf(todoDecription);
+    todos[title].splice(index, 1);
+}
+
 // add default todos to personal category
 createToDo('personal', 'Do the laundary', 'today', 'high');
 createToDo('personal', 'Pray your selat', 'today', 'high');
@@ -57,4 +62,4 @@ createToDo('grocery', 'Buy salad', 'today', 'high');
 createToDo('grocery', 'Buy some milk', 'tomorrow', 'high');
 
 
-export {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles, deleteProject};
+export {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles, deleteProject, deleteTodo};
