@@ -91,6 +91,9 @@ function projectClicked(event) {
     for(let index = 0; index < todos.length; index += 1) {
         addTodoToDOM(todos[index], index);
     }
+
+    // disable input
+    input.removeAttribute('disabled');
 }
 
 function displayAllTodosCreated() {
@@ -101,6 +104,9 @@ function displayAllTodosCreated() {
     for(let index = 0; index < todos.length; index += 1) {
         addTodoToDOM(todos[index], index);
     }
+
+    // disable input
+    input.setAttribute('disabled', 'true');
 }
 
 function deleteProjectFromDOM(event) {
