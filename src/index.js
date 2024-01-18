@@ -48,7 +48,8 @@ function todoClicked(event) {
     description.value = todos[todoIndex].getDescription();
     note.value = todos[todoIndex].getNote();
     dialog.showModal();
-    dialog.dataset.index = index;
+    dialog.dataset.todoIndex = todoIndex;
+    todo.classList.add('clicked');
 }
 
 function addTodoToDOM(todo, index) {
@@ -220,12 +221,13 @@ window.addEventListener('DOMContentLoaded', () => {
     
 });
 
-// load todos in a project
+// load todos in thedefault project
+divList.classList.add(titleOfProject);
 for(let index = 0; index < todos.length; index += 1) {
     addTodoToDOM(todos[index], index);
 }
 
-// add listener to all-todos btn
+// add listener to the btn which displays all todos
 const allTodoBtn = document.querySelector('button.all-todos');
 allTodoBtn.addEventListener('click', displayAllTodosCreated);
 
@@ -236,7 +238,10 @@ cancelDialogBtn.addEventListener('click', e => {
     todos[todoIndex].setNote(note.value);
     todos[todoIndex].setDescription(description.value);
     dialog.close();
-    document.querySelector(`button.description[data-index="${index}"]`).textContent = description.value;
+
+    const clickedTodo = document.querySelector('button.clicked');
+    clickedTodo.textContent = description.value;
+    clickedTodo.classList.remove('clicked');
 });
 
 // add input listener and render a new todo to the DOM
