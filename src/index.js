@@ -102,7 +102,7 @@ function projectClicked(event) {
     divList.classList.add(titleOfProject);
 }
 
-function displayAllTodosCreated() {    
+function displayAllTodosCreated() {  
     divList.classList[1] = 'all-todos';
     divList.innerHTML = '';
     todos = displayAllToDos();
