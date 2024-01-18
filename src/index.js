@@ -103,7 +103,8 @@ function projectClicked(event) {
 }
 
 function displayAllTodosCreated() {  
-    divList.classList[1] = 'all-todos';
+    divList.className = 'list';
+    divList.classList.add('all-todos');
     divList.innerHTML = '';
     todos = displayAllToDos();
 
