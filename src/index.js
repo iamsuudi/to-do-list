@@ -51,6 +51,9 @@ function todoClicked(event) {
     dialog.showModal();
     dialog.dataset.todoIndex = todoIndex;
     todo.classList.add('clicked');
+
+    const spanTitle = dialog.querySelector('span.title');
+    spanTitle.textContent = event.target.dataset.todoTitle;
 }
 
 function addTodoToDOM(todo, index) {
