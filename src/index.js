@@ -11,6 +11,7 @@ const dialog = document.querySelector('dialog');
 const description = document.querySelector('input.todo-description');
 const note = document.querySelector('textarea#note');
 const cancelDialogBtn = document.querySelector('dialog button.cancel');
+const deleteTodoBtn = document.querySelector('dialog button.delete');
 const input = document.querySelector('div.input input');
 
 
@@ -77,7 +78,24 @@ function addTodoToDOM(todo, index) {
 
     divList.appendChild(todoNode);
 
-    divList.classList.add(todo.getTitle());
+}
+
+function deleteTodoFromDOM(event) {
+    const clickedTodo = document.querySelector('button.clicked');
+    const {todoTitle} = clickedTodo.dataset;
+    const {todoIndex} = clickedTodo.dataset;
+
+    // delete the todo object from array
+    deleteTodo(todoTitle, todoIndex, divList.classList[1]);
+
+    // close the dialog
+    dialog.close();
+    
+    // delete the todo from the DOM
+    clickedTodo.parentElement.remove();
+
+    // fix the data-index of the following todo-items
+    // fixTodoIndices(todoIndex);
 }
 
 // a function which responds when project button clicked
@@ -244,6 +262,9 @@ cancelDialogBtn.addEventListener('click', e => {
     clickedTodo.textContent = description.value;
     clickedTodo.classList.remove('clicked');
 });
+
+// add listener to delete btn of todos
+deleteTodoBtn.addEventListener('click', deleteTodoFromDOM);
 
 // add input listener and render a new todo to the DOM
 input.addEventListener('focus', event => {
