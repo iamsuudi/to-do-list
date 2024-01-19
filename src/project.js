@@ -39,9 +39,23 @@ function deleteProject(title) {
     projects.splice(index, 1);
 }
 
-function deleteTodo(title, todoDecription) {
-    const index = todos[title].indexOf(todoDecription);
-    todos[title].splice(index, 1);
+function getLessThanFrequency(title) {
+    const titlesBefore = projects.indexOf(title);
+    let TotalLengths = 0;
+    for (let i = 0; i < titlesBefore; i += 1) {
+        TotalLengths += todos[projects[i]].length;
+    }
+    return TotalLengths;
+}
+
+function deleteTodo(title, todoIndex, arrayType) {
+
+    if (arrayType === 'all-todos') {
+        const LessThanFreq = getLessThanFrequency(title);
+        todos[title].splice(todoIndex - LessThanFreq, 1);
+    }
+    else
+        todos[title].splice(todoIndex, 1);
 }
 
 // add default todos to personal category
