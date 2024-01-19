@@ -80,6 +80,16 @@ function addTodoToDOM(todo, index) {
 
 }
 
+function fixTodoIndices(initialIndex) {  // after one is deleted
+    const allTodoBtns = document.querySelectorAll(`div.list button[data-todo-index]`);
+
+    allTodoBtns.forEach(btn => {
+        console.log(btn.dataset.todoIndex);
+        if(Number(btn.dataset.todoIndex) >= Number(initialIndex))
+            btn.dataset.todoIndex -= 1;
+    });
+}
+
 function deleteTodoFromDOM(event) {
     const clickedTodo = document.querySelector('button.clicked');
     const {todoTitle} = clickedTodo.dataset;
@@ -95,7 +105,7 @@ function deleteTodoFromDOM(event) {
     clickedTodo.parentElement.remove();
 
     // fix the data-index of the following todo-items
-    // fixTodoIndices(todoIndex);
+    fixTodoIndices(todoIndex);
 }
 
 // a function which responds when project button clicked
