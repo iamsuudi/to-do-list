@@ -167,9 +167,16 @@ function deleteProjectFromDOM(event) {
     if (divList.classList[1] === proj.classList[0]) {
         
         divList.innerHTML = '';
-        todos = displayProjectToDos(titles[indexOfProject]);
 
-        // load todos in a project
+        /*  if the current project being deleted is the last project,
+            make the first project the next one 
+        */
+        if (indexOfProject === titles.length)
+            todos = displayProjectToDos(titles[0]);
+        else
+            todos = displayProjectToDos(titles[indexOfProject]);
+
+        // load todos in the next project
         for(let index = 0; index < todos.length; index += 1)
             addTodoToDOM(todos[index], index);
     }
