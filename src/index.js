@@ -110,12 +110,15 @@ function deleteTodoFromDOM(event) {
 
 // a function which responds when project button clicked
 function projectClicked(event) {
+    const currentProject = document.querySelector('button.current-project');
+    currentProject.classList.remove('current-project');
     
     divList.className = 'list';
 
     const proj = event.target;
 
     titleOfProject = proj.className;
+    proj.classList.add('current-project');
     todos = displayProjectToDos(titleOfProject);
     divList.innerHTML = '';
 
@@ -130,7 +133,11 @@ function projectClicked(event) {
     divList.classList.add(titleOfProject);
 }
 
-function displayAllTodosCreated() {  
+function displayAllTodosCreated(event) {
+    const currentProject = document.querySelector('button.current-project');
+    currentProject.classList.remove('current-project');
+    event.target.classList.add('current-project');
+    
     divList.className = 'list';
     divList.classList.add('all-todos');
     divList.innerHTML = '';
@@ -176,6 +183,9 @@ function addProjectToDOM(title) {
     // add title button
     const titleBtn = document.createElement('button');
     titleBtn.className = title.toLowerCase();
+    if(title.toLowerCase() === titleOfProject) {
+        titleBtn.classList.add('current-project');
+    }
     titleBtn.textContent = title.toUpperCase();
     proj.appendChild(titleBtn);
 
