@@ -1,7 +1,7 @@
 import {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles, deleteProject, deleteTodo} from "./project";
 import './styles/style.sass';
 
-let titleOfProject = 'personal';
+let titleOfProject = 'all-todos';
 
 const projects = document.querySelector('div.projects');
 let todos = displayProjectToDos(titleOfProject);
