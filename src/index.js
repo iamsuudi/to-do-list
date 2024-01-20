@@ -317,26 +317,6 @@ input.addEventListener('focus', event => {
 });
 
 // add listener to projects header button for hovering effect
-const projectsHeader = document.querySelector('div.projects-top');
-projectsHeader.addEventListener('pointerover', () => {
-    const addBtn = projectsHeader.querySelector('button.small');
-    addBtn.style.visibility = 'visible';
-    addBtn.addEventListener('click', createProject);
-});
-
-projectsHeader.addEventListener('pointerleave', () => {
-    const addBtn = projectsHeader.querySelector('button.small');
-    addBtn.style.visibility = 'hidden';
-});
-
-// add listener to priority header button for hovering effect
-const priorityHeader = document.querySelector('div.priority');
-priorityHeader.addEventListener('pointerover', () => {
-    const addBtn = priorityHeader.querySelector('button.small');
-    addBtn.style.visibility = 'visible';
-});
-
-priorityHeader.addEventListener('pointerleave', () => {
-    const addBtn = priorityHeader.querySelector('button.small');
-    addBtn.style.visibility = 'hidden';
-});
+const addProjectBtn = document.querySelector('div.projects-top button.small');
+// addProjectBtn.style.visibility = 'visible';
+addProjectBtn.addEventListener('click', createProject);
