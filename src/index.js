@@ -6,6 +6,7 @@ let titleOfProject = 'all-todos';
 const projects = document.querySelector('div.projects');
 let todos = displayProjectToDos(titleOfProject);
 const titles = getProjectTitles();
+const allTodoBtn = document.querySelector('button.all-todos');
 const divList = document.querySelector('div.list');
 const dialog = document.querySelector('dialog');
 const description = document.querySelector('input.todo-description');
@@ -114,7 +115,9 @@ function deleteTodoFromDOM(event) {
 // a function which responds when project button clicked
 function projectClicked(event) {
     const currentProject = document.querySelector('button.current-project');
-    currentProject.classList.remove('current-project');
+
+    if (currentProject)
+        currentProject.classList.remove('current-project');
     
     divList.className = 'list';
 
@@ -138,8 +141,11 @@ function projectClicked(event) {
 
 function displayAllTodosCreated(event) {
     const currentProject = document.querySelector('button.current-project');
-    currentProject.classList.remove('current-project');
-    event.target.classList.add('current-project');
+    
+    if (currentProject)
+        currentProject.classList.remove('current-project');
+
+    allTodoBtn.classList.add('current-project');
     
     divList.className = 'list';
     divList.classList.add('all-todos');
@@ -268,16 +274,19 @@ window.addEventListener('DOMContentLoaded', () => {
     for(let i = 0; i < titles.length; i += 1)
         addProjectToDOM(titles[i]);
     
+    if (titleOfProject === 'all-todos') {
+        displayAllTodosCreated();
+        input.setAttribute('disabled', 'disabled');
+    }
 });
 
-// load todos in thedefault project
+// load todos in the default project
 divList.classList.add(titleOfProject);
-for(let index = 0; index < todos.length; index += 1) {
+for(let index = 0; index < !todos ? 0 : todos.length; index += 1) {
     addTodoToDOM(todos[index], index);
 }
 
 // add listener to the btn which displays all todos
-const allTodoBtn = document.querySelector('button.all-todos');
 allTodoBtn.addEventListener('click', displayAllTodosCreated);
 
 // add listener to cancel btn
@@ -311,7 +320,7 @@ input.addEventListener('focus', event => {
             addTodoToDOM(todos[index], index);
 
             event.target.value = '';
-            event.target.blur();
+            // event.target.blur();
         }
     })
 });
