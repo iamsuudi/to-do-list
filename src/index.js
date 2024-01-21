@@ -52,7 +52,6 @@ function todoClicked(event) {
     dialog.showModal();
     dialog.dataset.todoIndex = todoIndex;
     todo.classList.add('clicked');
-    console.log(todos[todoIndex].getPriority());
 
     const divPriorities = document.querySelector('div.priorities');
     divPriorities.querySelectorAll('button').forEach(btn => {
@@ -125,8 +124,7 @@ function deleteTodoFromDOM(event) {
 function changePriority(event) {
     const clickedTodo = document.querySelector('button.clicked');
     const {todoIndex} = clickedTodo.dataset;
-    const {todoTitle} = clickedTodo.dataset;
-    console.log('changing priority');
+
     const divPriorities = document.querySelector('div.priorities');
     
     function priority(e) {
@@ -143,16 +141,10 @@ function changePriority(event) {
         }, 250);
     }
 
-    console.log(divPriorities);
     divPriorities.classList.add('visible');
-    divPriorities.querySelector('a').focus();
-    divPriorities.querySelector('a').addEventListener('blur', e => {
-        console.log(e);
-        divPriorities.classList.remove('visible');
-    })
     setTimeout(() => {
         divPriorities.classList.remove('visible');
-    }, 3000);
+    }, 2000);
     divPriorities.querySelectorAll('button').forEach(btn => btn.addEventListener('click', priority));
 }
 
