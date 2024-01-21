@@ -128,24 +128,24 @@ function changePriority(event) {
     const divPriorities = document.querySelector('div.priorities');
     
     function priority(e) {
-        const currentSelctedPriority = document.querySelector('button.selected');
+        if (e.target.className === 'cancel')
+            setTimeout(() => {
+                divPriorities.classList.remove('visible');
+            }, 250);
+        else {
+            const currentSelctedPriority = document.querySelector('button.selected');
 
-        if (currentSelctedPriority)
-            currentSelctedPriority.classList.remove('selected');
+            if (currentSelctedPriority)
+                currentSelctedPriority.classList.remove('selected');
 
-        todos[todoIndex].setPriority(e.target.className);
+            todos[todoIndex].setPriority(e.target.className);
 
-        e.target.classList.add('selected');
-        
-        setTimeout(() => {
-            divPriorities.classList.remove('visible');
-        }, 250);
+            e.target.classList.add('selected');
+        }
     }
 
     divPriorities.classList.add('visible');
-    setTimeout(() => {
-        divPriorities.classList.remove('visible');
-    }, 2000);
+    
     divPriorities.querySelectorAll('button').forEach(btn => btn.addEventListener('click', priority));
 }
 
