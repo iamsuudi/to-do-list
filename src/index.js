@@ -129,13 +129,14 @@ function changePriority(event) {
     
     function priority(e) {
         const currentSelctedPriority = document.querySelector('button.selected');
-        console.log('current one\n', currentSelctedPriority);
+
         if (currentSelctedPriority)
             currentSelctedPriority.classList.remove('selected');
 
         todos[todoIndex].setPriority(e.target.className);
-        console.log('changed to ', e.target.className);
+
         e.target.classList.add('selected');
+        
         setTimeout(() => {
             divPriorities.classList.remove('visible');
         }, 250);
