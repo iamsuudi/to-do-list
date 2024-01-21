@@ -232,6 +232,7 @@ function createProject() {
     if (projInput.innerHTML === '') {
 
         projInput.style.visibility = 'visible';
+        projInput.classList.add('creating-newproject');
         const inp = document.createElement('input');
         inp.type = 'text';
         inp.placeholder = 'Enter name';
@@ -254,12 +255,14 @@ function createProject() {
                     event.target.blur();
                     projInput.innerHTML = '';
                     projInput.style.visibility = 'hidden';
+                    projInput.classList.remove('creating-newproject');
                 }
                 else if (e.key === 'Escape') {
                     event.target.value = '';
                     event.target.blur();
                     projInput.innerHTML = '';
                     projInput.style.visibility = 'hidden';
+                    projInput.classList.remove('creating-newproject');
                 }
             })
         });

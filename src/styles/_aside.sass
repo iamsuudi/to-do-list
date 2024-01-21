@@ -1,4 +1,18 @@
 
+@keyframes newproject
+    0%
+        background: none
+    100%
+        background: #303030
+
+@keyframes creating-project
+    0%
+        scale: 0
+        height: 0
+    100%
+        scale: 1
+        height: auto
+
 aside
     align-self: stretch
     background-color: #161616
@@ -33,7 +47,15 @@ aside
     div.new-project
         width: 100%
         visibility: hidden
-        // margin-top: 1rem
+        &.creating-newproject
+            animation-name: creating-project
+            animation-duration: 100ms
+            animation-timing-function: cubic-bezier(0.47, 0, 0.75, 0.72)
+            animation-delay: 0s
+            animation-iteration-count: 1
+            animation-direction: normal
+            animation-fill-mode: forwards
+            animation-play-state: running
         input
             // height: 1rem
             width: 100%
@@ -43,6 +65,15 @@ aside
             border: 0
             font-size: 1.1rem
             color: white
+
+            animation-name: newproject
+            animation-duration: 100ms
+            animation-timing-function: cubic-bezier(0.47, 0, 0.75, 0.72)
+            animation-delay: 0s
+            animation-iteration-count: 1
+            animation-direction: normal
+            animation-fill-mode: forwards
+            animation-play-state: running
             &::placeholder
                 font-size: 1rem
                 color: #8e8e92
