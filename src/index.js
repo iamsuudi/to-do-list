@@ -114,6 +114,40 @@ function deleteTodoFromDOM(event) {
     fixTodoIndices(todoIndex);
 }
 
+function changePriority(event) {
+    const clickedTodo = document.querySelector('button.clicked');
+    const {todoIndex} = clickedTodo.dataset;
+    const {todoTitle} = clickedTodo.dataset;
+    console.log('changing priority');
+    const divPriorities = document.querySelector('div.priorities');
+    
+    function priority(e) {
+        const currentSelctedPriority = document.querySelector('button.selected');
+        console.log('current one\n', currentSelctedPriority);
+        if (currentSelctedPriority)
+            currentSelctedPriority.classList.remove('selected');
+
+        todos[todoIndex].setPriority(e.target.className);
+        console.log('changed to ', e.target.className);
+        e.target.classList.add('selected');
+        setTimeout(() => {
+            divPriorities.classList.remove('visible');
+        }, 250);
+    }
+
+    console.log(divPriorities);
+    divPriorities.classList.add('visible');
+    divPriorities.querySelector('a').focus();
+    divPriorities.querySelector('a').addEventListener('blur', e => {
+        console.log(e);
+        divPriorities.classList.remove('visible');
+    })
+    setTimeout(() => {
+        divPriorities.classList.remove('visible');
+    }, 3000);
+    divPriorities.querySelectorAll('button').forEach(btn => btn.addEventListener('click', priority));
+}
+
 // a function which responds when project button clicked
 function projectClicked(event) {
     const currentProject = document.querySelector('button.current-project');
@@ -334,3 +368,7 @@ input.addEventListener('focus', event => {
 const addProjectBtn = document.querySelector('div.projects-top button.small');
 // addProjectBtn.style.visibility = 'visible';
 addProjectBtn.addEventListener('click', createProject);
+
+// add listener to changing-priority button
+const changePriorityBtn = document.querySelector('button.change-priority');
+changePriorityBtn.addEventListener('click', changePriority);
