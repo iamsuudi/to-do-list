@@ -1,4 +1,12 @@
 
+@keyframes todo
+    0%
+        opacity: 0
+        scale: 0
+        
+    100%
+        opacity: 1
+        scale: 1
 
 main
     background-color: #161616
@@ -20,13 +28,22 @@ main
 
         div.todo
             border-radius: 0.5rem
-            width: 100%
+            opacity: 0
             padding: 0.5rem 0.25rem
 
             display: grid
             grid-template-columns: 1.5rem 1fr
             align-items: center
             gap: 1rem
+
+            animation-name: todo
+            animation-duration: 800ms
+            animation-timing-function: ease-in-out
+            animation-delay: 0ms
+            animation-iteration-count: 1
+            animation-direction: normal
+            animation-fill-mode: forwards
+            animation-play-state: running
 
             &:hover
                 cursor: pointer
