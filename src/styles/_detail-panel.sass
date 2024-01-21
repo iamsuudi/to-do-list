@@ -132,3 +132,49 @@ dialog
             
             &:hover
                 background-color: black
+
+    div.priorities
+        position: fixed
+        right: 5rem
+        top: 5rem
+        display: flex
+        width: fit-content
+        flex-direction: column
+        background-color: #333
+        border-radius: 0.5rem
+        padding: 0.5rem 0
+        visibility: hidden
+        &.visible
+            visibility: visible
+            animation-name: opendialog
+            animation-duration: 500ms
+            animation-timing-function: ease-in-out
+            animation-delay: 0ms
+            animation-iteration-count: 1
+            animation-direction: normal
+            animation-fill-mode: forwards
+            animation-play-state: running
+        button
+            font-size: 0.8rem
+            font-weight: 700
+            color: #9c9c9c
+            height: 1rem
+            margin: 0.5rem
+            padding-left: 1.5rem
+            padding-right: 1rem
+            background-position: center left
+            background-size: contain
+            background-repeat: no-repeat
+            &:active
+                scale: 0.9
+
+            &.high.selected
+                color: white
+                background-image: url('../assets/images/priority-selected.svg')
+            &.medium.selected
+                color: white
+                background-image: url('../assets/images/priority-selected.svg')
+                
+            &.low.selected
+                color: white
+                background-image: url('../assets/images/priority-selected.svg')
