@@ -1,4 +1,13 @@
 
+@keyframes opendialog
+    0%
+        opacity: 0
+        scale: 0
+        
+    100%
+        opacity: 1
+        scale: 1
+
 dialog 
     background-color: #161616
     color: white
@@ -9,8 +18,16 @@ dialog
     margin: auto
     padding: 2rem
     border: 0
-    &::backdrop
-        background-color: rgba(0, 0, 0, 0.5)
+    box-shadow: 0.5rem 0.5rem 5rem 1rem rgba(0, 0, 0, 0.5)
+    
+    animation-name: opendialog
+    animation-duration: 500ms
+    animation-timing-function: ease-in-out
+    animation-delay: 0ms
+    animation-iteration-count: 1
+    animation-direction: normal
+    animation-fill-mode: forwards
+    animation-play-state: running
 
     div.top-tip 
         color: #8e8e92
