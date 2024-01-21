@@ -8,7 +8,7 @@ let todos = displayProjectToDos(titleOfProject);
 const titles = getProjectTitles();
 const allTodoBtn = document.querySelector('button.all-todos');
 const divList = document.querySelector('div.list');
-const dialog = document.querySelector('dialog');
+const dialog = document.querySelector('dialog.detail');
 const description = document.querySelector('input.todo-description');
 const note = document.querySelector('textarea#note');
 const cancelDialogBtn = document.querySelector('dialog button.cancel');
@@ -372,9 +372,8 @@ input.addEventListener('focus', event => {
     })
 });
 
-// add listener to projects header button for hovering effect
+// add listener to projects header button for creating new category/project
 const addProjectBtn = document.querySelector('div.projects-top button.small');
-// addProjectBtn.style.visibility = 'visible';
 addProjectBtn.addEventListener('click', createProject);
 
 // add listener to changing-priority button
