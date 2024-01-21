@@ -52,6 +52,14 @@ function todoClicked(event) {
     dialog.showModal();
     dialog.dataset.todoIndex = todoIndex;
     todo.classList.add('clicked');
+    console.log(todos[todoIndex].getPriority());
+
+    const divPriorities = document.querySelector('div.priorities');
+    divPriorities.querySelectorAll('button').forEach(btn => {
+        btn.classList.remove('selected');
+        if (btn.classList[0] === todos[todoIndex].getPriority())
+            btn.classList.add('selected');
+    });
 
     const spanTitle = dialog.querySelector('span.title');
     spanTitle.textContent = event.target.dataset.todoTitle;
