@@ -34,6 +34,18 @@ module.exports = {
                 test: /\.(png|gif|jpg|jepg|svg|woff|woff2|eot|ttf|otf)$/i,
                 type: 'asset/resource',
             },
+            {
+                test: /\.(?:js|mjs|cjs)$/,
+                exclude: /node_modules/,
+                use: {
+                  loader: 'babel-loader',
+                  options: {
+                    presets: [
+                      ['@babel/preset-env', { targets: "> 0.25%, not dead" }]
+                    ]
+                  }
+                }
+            },
         ],
     },
     plugins: [
