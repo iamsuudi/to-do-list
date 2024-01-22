@@ -29,18 +29,12 @@ function checkClicked(event) {
         todoNameBtn.dataset.status = 'pending';
         checkerBtn.dataset.status = 'pending';
         todos[todoIndex].setStatus('pending');
-
-        // move it to the top
-        divList.prepend(todo);
     }
     else {
         // do the task
         todoNameBtn.dataset.status = 'done';
         checkerBtn.dataset.status = 'done';
         todos[todoIndex].setStatus('done');
-
-        // move it to the bottom
-        divList.appendChild(todo);
     }
 }
 
