@@ -26,8 +26,21 @@ function sync() {
             const priority = td[j].getPriority();
             const note = td[j].getNote();
             const status = td[j].getStatus();
-    
-            local[projects[i]][j] = [title, description, dueDate, priority, note, status];
+            
+            local[projects[i]][j] = [
+                title, 
+                description, 
+                [
+                    dueDate.getFullYear(), 
+                    dueDate.getMonth(), 
+                    dueDate.getDate(), 
+                    dueDate.getHours(), 
+                    dueDate.getMinutes()
+                ], 
+                priority, 
+                note, 
+                status
+            ];
         }
     }
 
