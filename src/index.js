@@ -357,7 +357,7 @@ input.addEventListener('focus', event => {
 
         if (e.code === 'Enter' && content !== '') {
             // Creare a todo object, append it to the array and return the new length
-            const index = createToDo(titleOfProject, content, 'tomorrow', 'medium') - 1;
+            const index = createToDo(titleOfProject, content, add(new Date(), {days: 7, hours: 8, minutes: 30}), 'medium') - 1;
             
             // create node for the todo
             addTodoToDOM(todos[index], index);
