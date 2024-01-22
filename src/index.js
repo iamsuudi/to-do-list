@@ -329,7 +329,7 @@ for(let index = 0; index < !todos ? 0 : todos.length; index += 1) {
 // add listener to the btn which displays all todos
 allTodoBtn.addEventListener('click', displayAllTodosCreated);
 
-// add listener to cancel btn
+// add listener to cancel btn to detail dialog
 cancelDialogBtn.addEventListener('click', e => {
     e.preventDefault();
     const {todoIndex} = dialog.dataset;
@@ -340,6 +340,9 @@ cancelDialogBtn.addEventListener('click', e => {
     const clickedTodo = document.querySelector('button.clicked');
     clickedTodo.textContent = description.value;
     clickedTodo.classList.remove('clicked');
+
+    const divPriorities = document.querySelector('div.priorities');
+    divPriorities.classList.remove('visible');
 });
 
 // add listener to delete btn of todos
