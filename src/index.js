@@ -395,6 +395,9 @@ cancelDialogBtn.addEventListener('click', e => {
 
     const divPriorities = document.querySelector('div.priorities');
     divPriorities.classList.remove('visible');
+
+    const divDatePicker = document.querySelector('div.date-picker');
+    divDatePicker.classList.remove('visible');
 });
 
 // add listener to delete btn of todos
