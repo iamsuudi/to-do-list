@@ -1,3 +1,4 @@
+import {add, formatDistanceToNow, format} from 'date-fns';
 import {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles, deleteProject, deleteTodo} from "./project";
 import './styles/style.sass';
 
@@ -145,7 +146,7 @@ function changePriority(event) {
     }
 
     divPriorities.classList.add('visible');
-    
+
     divPriorities.querySelectorAll('button').forEach(btn => btn.addEventListener('click', priority));
 }
 
