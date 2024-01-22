@@ -308,6 +308,57 @@ function createProject() {
     }
 }
 
+function datePicker(event) {
+    const clickedTodo = document.querySelector('button.clicked');
+    const {todoIndex} = clickedTodo.dataset;
+
+    const divDatePicker = document.querySelector('div.date-picker');
+
+    const formatted = divDatePicker.querySelector('p.formatted');
+
+    const dateInp = divDatePicker.querySelector('input#date');
+    const timeInp = divDatePicker.querySelector('input#time');
+
+    const cancelBtn = divDatePicker.querySelector('button.cancel');
+    const setBtn = divDatePicker.querySelector('button.set');
+
+    // Make the div visible
+    divDatePicker.classList.add('visible');
+    
+    // Show the formatted time left for the todo
+    formatted.textContent = formatDistanceToNow(todos[todoIndex].getDueDate()).concat(' left');
+    
+    // get dueDate info from the clicked todo object and extract date from it for input-date
+    dateInp.value = format(todos[todoIndex].getDueDate(), 'yyyy-MM-dd');
+    
+    // get dueDate info from the clicked todo object and extract time from it for input-time
+    timeInp.value = format(todos[todoIndex].getDueDate(), 'hh:mm');
+    
+    // set minimum date as today in case the user wanted to update dueDate
+    dateInp.min = format(new Date(), 'yyyy-MM-dd');
+
+    // add listener to cancel-button
+    cancelBtn.addEventListener('click', () => {
+        setTimeout(() => {
+            divDatePicker.classList.remove('visible');
+        }, 250);
+    });
+
+    // Add listner to set-button
+    setBtn.addEventListener('click', () => {
+        const dateArray = dateInp.value.split('-');
+        dateArray[1] = Number(dateArray[1])-1;
+
+        const timeArray = timeInp.value.split(':');
+
+        todos[todoIndex].setDueDate(new Date(...dateArray, ...timeArray));
+
+        setTimeout(() => {
+            divDatePicker.classList.remove('visible');
+        }, 250);
+    });
+}
+
 // load projects
 window.addEventListener('DOMContentLoaded', () => {
     
