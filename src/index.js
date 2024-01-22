@@ -426,3 +426,7 @@ addProjectBtn.addEventListener('click', createProject);
 // add listener to changing-priority button
 const changePriorityBtn = document.querySelector('button.change-priority');
 changePriorityBtn.addEventListener('click', changePriority);
+
+// add listener to date picker
+const remindmeBtn = document.querySelector('button.remindme');
+remindmeBtn.addEventListener('click', datePicker);
