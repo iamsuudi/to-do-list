@@ -118,21 +118,31 @@ function loadFromLocalStorage() {
     // load all todos in each project to their respective array in the todos object
     const syncedLocal = JSON.parse(localStorage.getItem("local"));
     
-    if ( syncedLocal && Object.keys(syncedLocal).length !== 0 ) {
+    if ( syncedLocal && Object.keys(syncedLocal).length !== 0 ) { // checks if the localStorage is empty
+
         local = syncedLocal;
+
         for (let i = 0; i < projects.length; i += 1) {
 
-            if (!todos[projects[i]])
-                todos[projects[i]] = [];
+            // initialize arrray for the project category to push todos in it
+            todos[projects[i]] = [];
             
-            // create to do object
+            // extract datas of specific project category to create todo objects from it
             const core = local[projects[i]];
-
+            
             for (let j = 0; j < core.length; j += 1) {
-                const param = core[j].slice(0, 4);
-                const todo = new ToDo(...param);
-                todo.setNote(core[j][4]);
-                todo.setStatus(core[j][5]);
+
+                // extract data of specific todo object
+                const [t, des, dat, prio, note, stat] = core[j];
+
+                // create todo object by the 4 parameters
+                const todo = new ToDo(t, des, new Date(...dat), prio);
+
+                todo.setNote(note);
+
+                todo.setStatus(stat);
+
+                // add the created todo object to the array
                 todos[projects[i]].push(todo);
             }
         }
@@ -144,23 +154,6 @@ function loadFromLocalStorage() {
 
 // addDefaultsToLocalStorage();
 loadFromLocalStorage();
-
-/* // add default todos to personal category
-createToDo('personal', 'Do the laundary', 'today', 'high');
-createToDo('personal', 'Pray your selat', 'today', 'high');
-createToDo('personal', 'Do exercise', 'today', 'high');
-createToDo('personal', 'Create some notes', 'tomorrow', 'high');
-
-// add default todos to work category
-createToDo('work', 'Do the assignment', 'tonight', 'high');
-createToDo('work', 'Submit your proposal', 'wednesday', 'high');
-createToDo('work', 'Write your CV', 'sunday', 'high');
-createToDo('work', 'Connect with 10 people', 'today', 'high');
-
-// add default todos to grocery category
-createToDo('grocery', 'Go to grocery 1 and buy avocado', 'tomorrow', 'high');
-createToDo('grocery', 'Buy salad', 'today', 'high');
-createToDo('grocery', 'Buy some milk', 'tomorrow', 'high'); */
 
 
 export {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles, deleteProject, deleteTodo};
