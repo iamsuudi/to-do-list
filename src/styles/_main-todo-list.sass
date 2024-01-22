@@ -72,11 +72,25 @@ main
                 border: 0
                 font-size: 1rem
                 text-align: left
+                transition: color 0.9s linear
+
+                &::before
+                    content: ''
+                    position: absolute
+                    bottom: 1px
+                    background-image: linear-gradient(transparent 0 48%, #757575 50% calc(50% + 1.5px), transparent calc(50% + 1.5px) 100%)
+                    width: 0
+                    height: 100%
+                    transition: width 0.9s linear
+                    display: inline-block
+
                 &[data-status="done"]
                     color: #8e8e92
-                    text-decoration: line-through
+                    &::before
+                        width: 85%
                 &:hover
                     cursor: pointer
+                    font-weight: normal
                 &:active
                     color: #0083ff
 
