@@ -77,6 +77,7 @@ function addTodoToDOM(todo, index) {
     const btn = document.createElement('button');
     btn.className = 'status-checker';
     btn.addEventListener('click', checkClicked);   // change appearance when clicked
+    console.log(todo);
     btn.dataset.status = todo.getStatus();
     todoNode.appendChild(btn);
 
@@ -165,7 +166,8 @@ function inputListener(event) {
         if (e.code === 'Enter' && content !== '') {
             // Creare a todo object, append it to the array and return the new length
             const index = createToDo(titleOfProject, content, add(new Date(), {days: 7, hours: 8, minutes: 30}), 'medium') - 1;
-            
+
+            todos = displayProjectToDos(titleOfProject);
             // create node for the todo
             addTodoToDOM(todos[index], index);
 
@@ -315,12 +317,7 @@ function createProject() {
         projInput.appendChild(inp);
     
         inp.addEventListener('focus', event => {
-    
-            inp.addEventListener('blur', () => {
-                projInput.innerHTML = '';
-                projInput.style.visibility = 'hidden';
-                projInput.classList.remove('creating-newproject');
-            })
+
             window.addEventListener('keydown', e => {
                 const content = event.target.value;
         
@@ -331,7 +328,8 @@ function createProject() {
                     
                     // add it to the DOM
                     addProjectToDOM(content.toLowerCase());
-                    
+                    console.log('adding new category');
+                    inp.value = '';
                     projInput.innerHTML = '';
                     projInput.style.visibility = 'hidden';
                     projInput.classList.remove('creating-newproject');
@@ -345,7 +343,15 @@ function createProject() {
             })
         });
         
+        inp.addEventListener('blur', () => {
+            inp.value = '';
+            projInput.innerHTML = '';
+            projInput.style.visibility = 'hidden';
+            projInput.classList.remove('creating-newproject');
+        })
+        
         inp.focus();
+
     }
 }
 
