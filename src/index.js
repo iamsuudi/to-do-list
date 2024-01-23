@@ -452,8 +452,10 @@ cancelDialogBtn.addEventListener('click', e => {
     dialog.close();
 
     const clickedTodo = document.querySelector('button.clicked');
-    clickedTodo.textContent = description.value;
-    clickedTodo.classList.remove('clicked');
+    if (clickedTodo) {
+        clickedTodo.textContent = description.value;
+        clickedTodo.classList.remove('clicked');
+    }
 
     const divPriorities = document.querySelector('div.priorities');
     divPriorities.classList.remove('visible');
