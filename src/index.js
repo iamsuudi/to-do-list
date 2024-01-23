@@ -14,8 +14,7 @@ const description = document.querySelector('input.todo-description');
 const note = document.querySelector('textarea#note');
 const cancelDialogBtn = document.querySelector('dialog button.cancel');
 const deleteTodoBtn = document.querySelector('dialog button.delete');
-const input = document.querySelector('div.input input');
-
+const main = document.querySelector('main');
 
 // a function which responds to todo done checker
 function checkClicked(event) {
@@ -146,6 +145,24 @@ function changePriority(event) {
     divPriorities.querySelectorAll('button').forEach(btn => btn.addEventListener('click', priority));
 }
 
+function inputListener(event) {
+    window.addEventListener('keydown', e => {
+
+        const content = event.target.value;
+
+        if (e.code === 'Enter' && content !== '') {
+            // Creare a todo object, append it to the array and return the new length
+            const index = createToDo(titleOfProject, content, add(new Date(), {days: 7, hours: 8, minutes: 30}), 'medium') - 1;
+            
+            // create node for the todo
+            addTodoToDOM(todos[index], index);
+
+            event.target.value = '';
+            // event.target.blur();
+        }
+    })
+}
+
 // a function which responds when project button clicked
 function projectClicked(event) {
     const currentProject = document.querySelector('button.current-project');
@@ -166,11 +183,25 @@ function projectClicked(event) {
     for(let index = 0; index < todos.length; index += 1) {
         addTodoToDOM(todos[index], index);
     }
-
-    // disable input
-    input.removeAttribute('disabled');
-
     divList.classList.add(titleOfProject);
+    divList.style.height = '100%';
+
+    if (titleOfProject !== 'all-todos') {
+
+        const div = document.createElement('div');
+        div.className = 'input';
+        const input = document.createElement('input');
+        input.type = "text";
+        input.name = "todo-name";
+        input.id = "todo-name";
+        input.placeholder = "+   Add task";
+        divList.style.height = '90%';
+        // add input listener and render a new todo to the DOM
+        input.addEventListener('focus', inputListener);
+        div.appendChild(input);
+        
+        main.appendChild(div);
+    }
 }
 
 function displayAllTodosCreated(event) {
@@ -190,9 +221,6 @@ function displayAllTodosCreated(event) {
     for(let index = 0; index < todos.length; index += 1) {
         addTodoToDOM(todos[index], index);
     }
-
-    // disable input
-    input.setAttribute('disabled', 'true');
 }
 
 function deleteProjectFromDOM(event) {
@@ -364,7 +392,6 @@ window.addEventListener('DOMContentLoaded', () => {
     
     if (titleOfProject === 'all-todos') {
         displayAllTodosCreated();
-        input.setAttribute('disabled', 'disabled');
     }
 });
 
@@ -398,26 +425,6 @@ cancelDialogBtn.addEventListener('click', e => {
 
 // add listener to delete btn of todos
 deleteTodoBtn.addEventListener('click', deleteTodoFromDOM);
-
-// add input listener and render a new todo to the DOM
-input.addEventListener('focus', event => {
-
-    window.addEventListener('keydown', e => {
-
-        const content = event.target.value;
-
-        if (e.code === 'Enter' && content !== '') {
-            // Creare a todo object, append it to the array and return the new length
-            const index = createToDo(titleOfProject, content, add(new Date(), {days: 7, hours: 8, minutes: 30}), 'medium') - 1;
-            
-            // create node for the todo
-            addTodoToDOM(todos[index], index);
-
-            event.target.value = '';
-            // event.target.blur();
-        }
-    })
-});
 
 // add listener to projects header button for creating new category/project
 const addProjectBtn = document.querySelector('div.projects-top button.small');
