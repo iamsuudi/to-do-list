@@ -166,9 +166,12 @@ function inputListener(event) {
 // a function which responds when project button clicked
 function projectClicked(event) {
     const currentProject = document.querySelector('button.current-project');
+    const currentPriority = document.querySelector('button.current-priority');
 
     if (currentProject)
         currentProject.classList.remove('current-project');
+    if (currentPriority)
+        currentPriority.classList.remove('current-priority');
     
     divList.className = 'list';
 
