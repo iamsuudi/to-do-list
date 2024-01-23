@@ -302,6 +302,11 @@ function createProject() {
     
         inp.addEventListener('focus', event => {
     
+            inp.addEventListener('blur', () => {
+                projInput.innerHTML = '';
+                projInput.style.visibility = 'hidden';
+                projInput.classList.remove('creating-newproject');
+            })
             window.addEventListener('keydown', e => {
                 const content = event.target.value;
         
@@ -312,23 +317,20 @@ function createProject() {
                     
                     // add it to the DOM
                     addProjectToDOM(content.toLowerCase());
-        
-                    event.target.value = '';
-                    event.target.blur();
+                    
                     projInput.innerHTML = '';
                     projInput.style.visibility = 'hidden';
                     projInput.classList.remove('creating-newproject');
                 }
                 else if (e.key === 'Escape') {
-                    event.target.value = '';
-                    event.target.blur();
+                    
                     projInput.innerHTML = '';
                     projInput.style.visibility = 'hidden';
                     projInput.classList.remove('creating-newproject');
                 }
             })
         });
-
+        
         inp.focus();
     }
 }
