@@ -130,15 +130,15 @@ function changePriority(event) {
     const clickedTodo = document.querySelector('button.clicked');
     const {todoIndex} = clickedTodo.dataset;
 
-    const divPriorities = document.querySelector('div.priorities');
+    const divPriorities = document.querySelector('dialog div.priorities');
     
     function priority(e) {
         if (e.target.className === 'cancel')
             setTimeout(() => {
                 divPriorities.classList.remove('visible');
-            }, 250);
+            }, 200);
         else {
-            const currentSelctedPriority = document.querySelector('button.selected');
+            const currentSelctedPriority = divPriorities.querySelector('button.selected');
 
             if (currentSelctedPriority)
                 currentSelctedPriority.classList.remove('selected');
@@ -462,7 +462,7 @@ cancelDialogBtn.addEventListener('click', e => {
         clickedTodo.classList.remove('clicked');
     }
 
-    const divPriorities = document.querySelector('div.priorities');
+    const divPriorities = document.querySelector('dialog div.priorities');
     divPriorities.classList.remove('visible');
 
     const divDatePicker = document.querySelector('div.date-picker');
