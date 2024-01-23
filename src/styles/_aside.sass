@@ -43,7 +43,7 @@ aside
         grid-template-columns: 1fr 1.5rem
         align-items: center
         &:hover
-            background-color: #525252
+            background-color: #444
     div.new-project
         width: 100%
         visibility: hidden
@@ -90,7 +90,7 @@ aside
             grid-template-columns: 1fr 1.5rem
             align-items: center
             &:hover
-                background-color: #525252
+                background-color: #333
 
     div.priority
         padding: 1rem
@@ -98,7 +98,19 @@ aside
         grid-template-columns: 1fr 1.5rem
         align-items: center
         &:hover
-            background-color: #525252
+            background-color: #444
+    div.priorities
+        display: flex
+        flex-direction: column
+        button
+            padding: 1rem 2rem
+            font-size: 0.8rem
+            font-family: cursive
+            color: #aaa
+            &:hover
+                font-weight: normal
+                color: #fff
+                background-color: #333
 
 button
     border: 0
@@ -138,16 +150,19 @@ button
         padding: 1rem
         &:hover
             cursor: pointer
-            background-color: #525252
+            background-color: #444
     &.all-todos
         padding: 1rem
         &:hover
             cursor: pointer
-            background-color: #525252
+            background-color: #333
     &.my-lists, &.priority, &.setting, &.all-todos
         font-size: 1.25rem
         font-weight: 700
         color: white
     &.current-project
+        color: #0083ff
+        font-weight: 700
+    &.current-priority
         color: #0083ff
         font-weight: 700
