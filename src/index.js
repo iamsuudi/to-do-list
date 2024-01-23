@@ -456,10 +456,11 @@ priorityBtns.forEach(btn => btn.addEventListener('click', priorityClicked))
 cancelDialogBtn.addEventListener('click', e => {
     e.preventDefault();
     dialog.close();
-
+    const description = document.querySelector('dialog input.todo-description');
     const clickedTodo = document.querySelector('button.clicked');
     if (clickedTodo) {
         clickedTodo.classList.remove('clicked');
+        clickedTodo.textContent = description.value;
     }
 
     const divPriorities = document.querySelector('dialog div.priorities');
