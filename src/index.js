@@ -10,8 +10,6 @@ const titles = getProjectTitles();
 const allTodoBtn = document.querySelector('button.all-todos');
 const divList = document.querySelector('div.list');
 const dialog = document.querySelector('dialog.detail');
-const description = document.querySelector('input.todo-description');
-const note = document.querySelector('textarea#note');
 const cancelDialogBtn = document.querySelector('dialog button.cancel');
 const deleteTodoBtn = document.querySelector('dialog button.delete');
 const main = document.querySelector('main');
@@ -39,6 +37,10 @@ function checkClicked(event) {
 
 function todoClicked(event) {
     event.preventDefault();
+
+    const description = document.querySelector('input.todo-description');
+    const note = document.querySelector('textarea#note');
+    
     const todo = event.target;
     const {todoIndex} = todo.dataset;
     description.value = todos[todoIndex].getDescription();
@@ -47,7 +49,14 @@ function todoClicked(event) {
     dialog.dataset.todoIndex = todoIndex;
     todo.classList.add('clicked');
 
-    const divPriorities = document.querySelector('div.priorities');
+    description.addEventListener('input', e => {
+        todos[todoIndex].setDescription(e.target.value);
+    })
+    note.addEventListener('input', e => {
+        todos[todoIndex].setNote(e.target.value);
+    })
+
+    const divPriorities = document.querySelector('dialog div.priorities');
     divPriorities.querySelectorAll('button').forEach(btn => {
         btn.classList.remove('selected');
         if (btn.classList[0] === todos[todoIndex].getPriority())
@@ -446,14 +455,10 @@ priorityBtns.forEach(btn => btn.addEventListener('click', priorityClicked))
 // add listener to cancel btn to detail dialog
 cancelDialogBtn.addEventListener('click', e => {
     e.preventDefault();
-    const {todoIndex} = dialog.dataset;
-    todos[todoIndex].setNote(note.value);
-    todos[todoIndex].setDescription(description.value);
     dialog.close();
 
     const clickedTodo = document.querySelector('button.clicked');
     if (clickedTodo) {
-        clickedTodo.textContent = description.value;
         clickedTodo.classList.remove('clicked');
     }
 
