@@ -184,9 +184,8 @@ function projectClicked(event) {
         addTodoToDOM(todos[index], index);
     }
     divList.classList.add(titleOfProject);
-    divList.style.height = '100%';
 
-    if (titleOfProject !== 'all-todos') {
+    if (titleOfProject !== 'all-todos' && !main.querySelector('div.input')) {
 
         const div = document.createElement('div');
         div.className = 'input';
