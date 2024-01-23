@@ -405,6 +405,38 @@ for(let index = 0; index < !todos ? 0 : todos.length; index += 1) {
 // add listener to the btn which displays all todos
 allTodoBtn.addEventListener('click', displayAllTodosCreated);
 
+function priorityClicked(event) {
+    const currentProject = document.querySelector('button.current-project');
+    const currentPriority = document.querySelector('button.current-priority');
+
+    if (currentProject)
+        currentProject.classList.remove('current-project');
+    if (currentPriority)
+        currentPriority.classList.remove('current-priority');
+
+    event.target.classList.add('current-priority');
+
+    titleOfProject = 'all-todos';
+
+    todos = displayAllToDos();
+
+    divList.innerHTML = '';
+    divList.classList.add(titleOfProject, event.target.classList[0]);
+
+    for(let i = 0; i < todos.length; i += 1) {
+        if (todos[i].getPriority() === event.target.classList[0]) {
+            addTodoToDOM(todos[i], i);
+        }
+    }
+
+    if (main.querySelector('div.input'))
+        main.querySelector('div.input').remove();
+}
+
+// add listener to priority buttons
+const priorityBtns = document.querySelectorAll('aside div.priorities button');
+priorityBtns.forEach(btn => btn.addEventListener('click', priorityClicked))
+
 // add listener to cancel btn to detail dialog
 cancelDialogBtn.addEventListener('click', e => {
     e.preventDefault();
