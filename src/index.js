@@ -82,7 +82,8 @@ function addTodoToDOM(todo, index) {
     button.addEventListener('click', todoClicked);  // open detail when clicked
     todoNode.appendChild(button);
     const number = divList.children.length;
-    todoNode.style.animationDelay = `${number*100}ms`;
+    todoNode.style.animationDuration = `${number*10 + 500}ms`;
+    todoNode.style.animationDelay = `${number*10}ms`;
 
     divList.appendChild(todoNode);
 
