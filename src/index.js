@@ -77,7 +77,6 @@ function addTodoToDOM(todo, index) {
     const btn = document.createElement('button');
     btn.className = 'status-checker';
     btn.addEventListener('click', checkClicked);   // change appearance when clicked
-    console.log(todo);
     btn.dataset.status = todo.getStatus();
     todoNode.appendChild(btn);
 
@@ -202,6 +201,9 @@ function projectClicked(event) {
     }
     divList.classList.add(titleOfProject);
 
+    if (main.querySelector('div.input'))
+        main.querySelector('div.input').remove();
+
     if (titleOfProject !== 'all-todos' && !main.querySelector('div.input')) {
 
         const div = document.createElement('div');
@@ -220,7 +222,7 @@ function projectClicked(event) {
     }
 }
 
-function displayAllTodosCreated(event) {
+function displayAllTodosCreated() {
     const currentProject = document.querySelector('button.current-project');
     
     if (currentProject)
@@ -237,6 +239,9 @@ function displayAllTodosCreated(event) {
     for(let index = 0; index < todos.length; index += 1) {
         addTodoToDOM(todos[index], index);
     }
+
+    if (main.querySelector('div.input'))
+        main.querySelector('div.input').remove();
 }
 
 function deleteProjectFromDOM(event) {
@@ -258,7 +263,12 @@ function deleteProjectFromDOM(event) {
         /*  if the current project being deleted is the last project,
             make the first project the next one 
         */
-        if (indexOfProject === titles.length)
+        if (titles.length === 0) {
+            displayAllTodosCreated();
+            if (main.querySelector('div.input'))
+                main.querySelector('div.input').remove();
+        }
+        else if (indexOfProject === titles.length)
             todos = displayProjectToDos(titles[0]);
         else
             todos = displayProjectToDos(titles[indexOfProject]);
