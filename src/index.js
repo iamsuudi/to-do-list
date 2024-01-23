@@ -86,6 +86,7 @@ function addTodoToDOM(todo, index) {
     todoNode.style.animationDelay = `${number*10}ms`;
 
     divList.appendChild(todoNode);
+    divList.scrollTo(0, divList.scrollHeight);
 
 }
 
