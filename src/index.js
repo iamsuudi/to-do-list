@@ -137,6 +137,9 @@ function changePriority(event) {
             todos[todoIndex].setPriority(e.target.className);
 
             e.target.classList.add('selected');
+
+            if (divList.classList[1] && divList.classList[1] !== todos[todoIndex].getPriority())
+                clickedTodo.parentElement.remove();
         }
     }
 
