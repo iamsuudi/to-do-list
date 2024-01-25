@@ -1,5 +1,5 @@
 import {add, formatDistanceToNow, format} from 'date-fns';
-import {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles, deleteProject, deleteTodo} from "./project";
+import {createToDo, displayProjectToDos, addProject, getProjectTitles, deleteProject, deleteTodo} from "./project";
 import './styles/style.sass';
 
 let titleOfProject = 'all-todos';
@@ -157,7 +157,8 @@ function changePriority(event) {
     divPriorities.querySelectorAll('button').forEach(btn => btn.addEventListener('click', priority));
 }
 
-function inputListener(event) {
+function newTodoInputListener(event) {
+
     window.addEventListener('keydown', e => {
 
         const content = event.target.value;
@@ -216,10 +217,7 @@ function currentCategoryController(currentPlayer) {
 // a function which responds when project button clicked
 function projectClicked(event) {
     
-    if (currentProject)
-        currentProject.classList.remove('current-project');
-    if (currentPriority)
-        currentPriority.classList.remove('current-priority');
+    currentCategoryController(event.target);
     
     divList.className = 'list';
     divList.classList.add('all-todos');
@@ -464,6 +462,7 @@ function priorityClicked(event) {
     }
 
     divInputController(titleOfProject);
+
 }
 
 // add listener to priority buttons
