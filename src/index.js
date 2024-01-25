@@ -46,11 +46,31 @@ function renderCurrentTodoPriority() {
     });
 }
 
-function todoClicked(event) {
-    event.preventDefault();
+function SyncDescriptionAndNoteDynamically(description, note) {
+
+    // listen to change and update dynamically
+    description.addEventListener('input', e => {
+        todos[currentTodoIndex].setDescription(e.target.value);
+    })
+    note.addEventListener('input', e => {
+        todos[currentTodoIndex].setNote(e.target.value);
+    })
+}
+
+function renderDescriptionAndNote() {
 
     const description = document.querySelector('input.todo-description');
     const note = document.querySelector('textarea#note');
+
+    description.value = todos[currentTodoIndex].getDescription();
+    note.value = todos[currentTodoIndex].getNote();
+
+    // update and sync description and note dynamically on change
+    SyncDescriptionAndNoteDynamically(description, note);
+}
+
+function todoClicked(event) {
+    event.preventDefault();
     
     const todo = event.target;
 
@@ -58,20 +78,13 @@ function todoClicked(event) {
 
     currentTodoIndex = todo.dataset.todoIndex;
 
-    description.value = todos[currentTodoIndex].getDescription();
-    note.value = todos[currentTodoIndex].getNote();
-
-    // update and sync description and note dynamically on change
-    description.addEventListener('input', e => {
-        todos[currentTodoIndex].setDescription(e.target.value);
-    })
-    note.addEventListener('input', e => {
-        todos[currentTodoIndex].setNote(e.target.value);
-    })
-
     // update the title on dialog header
     const spanTitle = dialog.querySelector('span.title');
     spanTitle.textContent = event.target.dataset.todoTitle;
+    
+    // display Description and Note of the todo
+    renderDescriptionAndNote();
+
 
     dialog.showModal();
 
