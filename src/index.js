@@ -69,6 +69,24 @@ function renderDescriptionAndNote() {
     SyncDescriptionAndNoteDynamically(description, note);
 }
 
+function cancelDialogClicked()  {
+    
+    dialog.close();
+
+    const clickedTodo = document.querySelector('button.clicked');
+
+    if (clickedTodo) {
+        clickedTodo.classList.remove('clicked');
+        clickedTodo.textContent = todos[currentTodoIndex].getDescription();
+    }
+
+    const divPriorities = document.querySelector('dialog div.priorities');
+    divPriorities.classList.remove('visible');
+
+    const divDatePicker = document.querySelector('div.date-picker');
+    divDatePicker.classList.remove('visible');
+}
+
 function todoClicked(event) {
     event.preventDefault();
     
@@ -81,7 +99,7 @@ function todoClicked(event) {
     // update the title on dialog header
     const spanTitle = dialog.querySelector('span.title');
     spanTitle.textContent = event.target.dataset.todoTitle;
-    
+
     // display Description and Note of the todo
     renderDescriptionAndNote();
 
@@ -90,6 +108,20 @@ function todoClicked(event) {
 
     // render its priority up-front
     renderCurrentTodoPriority();
+
+    // add listener to date picker
+    const remindmeBtn = document.querySelector('button.remindme');
+    remindmeBtn.addEventListener('click', datePickerClicked);
+
+    // add listener to changing-priority button
+    const changePriorityBtn = document.querySelector('button.change-priority');
+    changePriorityBtn.addEventListener('click', changePriorityClicked);
+
+    // add listener to delete button of todos
+    deleteTodoBtn.addEventListener('click', deleteTodoClicked);
+
+    // add listener to cancel button of dialog
+    cancelDialogBtn.addEventListener('click', cancelDialogClicked);
 }
 
 function addTodoToDOM(todo, index) {
@@ -133,7 +165,7 @@ function fixTodoIndices(initialIndex) {  // after one is deleted
     });
 }
 
-function deleteTodoFromDOM() {
+function deleteTodoClicked() {
     
     const clickedTodo = document.querySelector('button.clicked-todo');
     const {todoTitle} = clickedTodo.dataset;
@@ -152,9 +184,9 @@ function deleteTodoFromDOM() {
     fixTodoIndices(todoIndex);
 }
 
-function changePriority(event) {
+function changePriorityClicked() {
+
     const clickedTodo = document.querySelector('button.clicked');
-    const {todoIndex} = clickedTodo.dataset;
 
     const divPriorities = document.querySelector('dialog div.priorities');
     
@@ -169,11 +201,11 @@ function changePriority(event) {
             if (currentSelctedPriority)
                 currentSelctedPriority.classList.remove('selected');
 
-            todos[todoIndex].setPriority(e.target.className);
+            todos[currentTodoIndex].setPriority(e.target.className);
 
             e.target.classList.add('selected');
 
-            if (divList.classList[1] && divList.classList[1] !== todos[todoIndex].getPriority())
+            if (divList.classList[1] && divList.classList[1] !== todos[currentTodoIndex].getPriority())
                 clickedTodo.parentElement.remove();
         }
     }
@@ -204,6 +236,7 @@ function newTodoInputListener(event) {
 }
 
 function divInputController(title) {
+    // adds input div to addnew todos if needed
 
     if (main.querySelector('div.input') && title === 'all-todos')
         main.querySelector('div.input').remove();
@@ -395,7 +428,7 @@ function createProject() {
     }
 }
 
-function datePicker(event) {
+function datePickerClicked(event) {
     const clickedTodo = document.querySelector('button.clicked');
     const {todoIndex} = clickedTodo.dataset;
 
@@ -494,35 +527,6 @@ loadSyncedProjects.then(displayProjects).then(addListenerToCategoryBtns).then(di
     console.log(err);
 });
 
-// add listener to cancel btn to detail dialog
-cancelDialogBtn.addEventListener('click', e => {
-    e.preventDefault();
-    dialog.close();
-    const description = document.querySelector('dialog input.todo-description');
-    const clickedTodo = document.querySelector('button.clicked');
-    if (clickedTodo) {
-        clickedTodo.classList.remove('clicked');
-        clickedTodo.textContent = description.value;
-    }
-
-    const divPriorities = document.querySelector('dialog div.priorities');
-    divPriorities.classList.remove('visible');
-
-    const divDatePicker = document.querySelector('div.date-picker');
-    divDatePicker.classList.remove('visible');
-});
-
-// add listener to delete btn of todos
-deleteTodoBtn.addEventListener('click', deleteTodoFromDOM);
-
 // add listener to projects header button for creating new category/project
 const addProjectBtn = document.querySelector('div.projects-top button.small');
 addProjectBtn.addEventListener('click', createProject);
-
-// add listener to changing-priority button
-const changePriorityBtn = document.querySelector('button.change-priority');
-changePriorityBtn.addEventListener('click', changePriority);
-
-// add listener to date picker
-const remindmeBtn = document.querySelector('button.remindme');
-remindmeBtn.addEventListener('click', datePicker);
