@@ -298,7 +298,7 @@ function addProjectToDOM(title) {
         delBtn.style.visibility = 'hidden';
     })
 
-    // add listener for clicked to render its todos
+    // add listener for clicked project to render its todos
     titleBtn.addEventListener('click', projectClicked);
 
     projects.appendChild(proj);
@@ -418,32 +418,36 @@ const displaySpecificProjectTodos = (title) => {
     divInputController(title);
 }
 
-function displayProjects() {
+function displayProjects(title) {
 
     for(let i = 0; i < titles.length; i += 1)
         addProjectToDOM(titles[i]);
+
+    return Promise.resolve(title);
 }
 
 const loadSyncedProjects = new Promise((resolve, reject) => {
 
     window.addEventListener('DOMContentLoaded', () => {
-        
-        displayProjects();
-        
-        if (!titleOfProject)
-            reject(Error('No project title is provided'));
-        else {
-            resolve(titleOfProject);
-        }
+        resolve(titleOfProject);
     });
 })
 
-loadSyncedProjects.then(displaySpecificProjectTodos).catch(err => {
-    console.log(err);
-})
+function addListenerToCategoryBtns() {
 
-// add listener to the btn which displays all todos
-allTodoBtn.addEventListener('click', projectClicked);
+    // add listener to the btn which displays all todos
+    allTodoBtn.addEventListener('click', projectClicked);
+    
+    // add listener to priority buttons
+    const priorityBtns = document.querySelectorAll('aside div.priorities button');
+    priorityBtns.forEach(btn => btn.addEventListener('click', priorityClicked));
+
+    return Promise.resolve(titleOfProject);
+}
+
+loadSyncedProjects.then(displayProjects).then(addListenerToCategoryBtns).then(displaySpecificProjectTodos).catch(err => {
+    console.log(err);
+});
 
 function priorityClicked(event) {
     
@@ -466,10 +470,6 @@ function priorityClicked(event) {
     divInputController(titleOfProject);
 
 }
-
-// add listener to priority buttons
-const priorityBtns = document.querySelectorAll('aside div.priorities button');
-priorityBtns.forEach(btn => btn.addEventListener('click', priorityClicked))
 
 // add listener to cancel btn to detail dialog
 cancelDialogBtn.addEventListener('click', e => {
