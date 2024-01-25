@@ -4,6 +4,7 @@ import './styles/style.sass';
 
 let titleOfProject = 'all-todos';
 let currentPriority = 'all-priority';
+let currentTodoIndex = -1;
 
 const projects = document.querySelector('div.projects');
 let todos = displayProjectToDos(titleOfProject);
@@ -36,6 +37,15 @@ function checkClicked(event) {
     }
 }
 
+function renderCurrentTodoPriority() {
+    const divPriorities = document.querySelector('dialog div.priorities');
+    divPriorities.querySelectorAll('button').forEach(btn => {
+        btn.classList.remove('selected');
+        if (btn.classList[0] === todos[currentTodoIndex].getPriority())
+            btn.classList.add('selected');
+    });
+}
+
 function todoClicked(event) {
     event.preventDefault();
 
@@ -43,29 +53,30 @@ function todoClicked(event) {
     const note = document.querySelector('textarea#note');
     
     const todo = event.target;
-    const {todoIndex} = todo.dataset;
-    description.value = todos[todoIndex].getDescription();
-    note.value = todos[todoIndex].getNote();
-    dialog.showModal();
-    dialog.dataset.todoIndex = todoIndex;
+
     todo.classList.add('clicked-todo');
 
+    currentTodoIndex = todo.dataset.todoIndex;
+
+    description.value = todos[currentTodoIndex].getDescription();
+    note.value = todos[currentTodoIndex].getNote();
+
+    // update and sync description and note dynamically on change
     description.addEventListener('input', e => {
-        todos[todoIndex].setDescription(e.target.value);
+        todos[currentTodoIndex].setDescription(e.target.value);
     })
     note.addEventListener('input', e => {
-        todos[todoIndex].setNote(e.target.value);
+        todos[currentTodoIndex].setNote(e.target.value);
     })
 
-    const divPriorities = document.querySelector('dialog div.priorities');
-    divPriorities.querySelectorAll('button').forEach(btn => {
-        btn.classList.remove('selected');
-        if (btn.classList[0] === todos[todoIndex].getPriority())
-            btn.classList.add('selected');
-    });
-
+    // update the title on dialog header
     const spanTitle = dialog.querySelector('span.title');
     spanTitle.textContent = event.target.dataset.todoTitle;
+
+    dialog.showModal();
+
+    // render its priority up-front
+    renderCurrentTodoPriority();
 }
 
 function addTodoToDOM(todo, index) {
@@ -109,13 +120,14 @@ function fixTodoIndices(initialIndex) {  // after one is deleted
     });
 }
 
-function deleteTodoFromDOM(event) {
+function deleteTodoFromDOM() {
+    
     const clickedTodo = document.querySelector('button.clicked-todo');
     const {todoTitle} = clickedTodo.dataset;
     const {todoIndex} = clickedTodo.dataset;
 
     // delete the todo object from array
-    deleteTodo(todoTitle, todoIndex, divList.classList[1]);
+    deleteTodo(todoTitle, todoIndex, titleOfProject);
 
     // close the dialog
     dialog.close();
