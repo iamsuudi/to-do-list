@@ -209,17 +209,22 @@ function displayAllTodosCreated() {
     if (currentProject)
         currentProject.classList.remove('current-project');
 
-    allTodoBtn.classList.add('current-project');
+// a function which responds when project button clicked
+function projectClicked(event) {
+    const currentProject = document.querySelector('button.current-project');
+    const currentPriority = document.querySelector('button.current-priority');
+
+    if (currentProject)
+        currentProject.classList.remove('current-project');
+    if (currentPriority)
+        currentPriority.classList.remove('current-priority');
     
     divList.className = 'list';
     divList.classList.add('all-todos');
     divList.innerHTML = '';
-    todos = displayAllToDos();
 
-    // load todos
-    for(let index = 0; index < todos.length; index += 1) {
-        addTodoToDOM(todos[index], index);
-    }
+    // load todos in a project
+    displaySpecificProjectTodos(titleOfProject);
 
     divInputController(titleOfProject);
 }
@@ -434,7 +439,7 @@ loadSyncedProjects.then(displaySpecificProjectTodos).catch(err => {
 })
 
 // add listener to the btn which displays all todos
-allTodoBtn.addEventListener('click', displayAllTodosCreated);
+allTodoBtn.addEventListener('click', projectClicked);
 
 function priorityClicked(event) {
     const currentProject = document.querySelector('button.current-project');
