@@ -46,18 +46,23 @@ function renderCurrentTodoPriority() {
     });
 }
 
-function SyncDescriptionAndNoteDynamically(description, note) {
+function SyncDescriptionAndNoteDynamically(description, note, todoDOM) {
 
     // listen to change and update dynamically
     description.addEventListener('input', e => {
+
+        // sync to the todo object
         todos[currentTodoIndex].setDescription(e.target.value);
+
+        // sync to the todo DOM
+        todoDOM.textContent = e.target.value;
     })
     note.addEventListener('input', e => {
         todos[currentTodoIndex].setNote(e.target.value);
     })
 }
 
-function renderDescriptionAndNote() {
+function renderDescriptionAndNote(todoDOM) {
 
     const description = document.querySelector('input.todo-description');
     const note = document.querySelector('textarea#note');
@@ -66,23 +71,18 @@ function renderDescriptionAndNote() {
     note.value = todos[currentTodoIndex].getNote();
 
     // update and sync description and note dynamically on change
-    SyncDescriptionAndNoteDynamically(description, note);
+    SyncDescriptionAndNoteDynamically(description, note, todoDOM);
 }
 
 function cancelDialogClicked()  {
     
     dialog.close();
 
-    const clickedTodo = document.querySelector('button.clicked');
-
-    if (clickedTodo) {
-        clickedTodo.classList.remove('clicked');
-        clickedTodo.textContent = todos[currentTodoIndex].getDescription();
-    }
-
+    // hide priority changing panel
     const divPriorities = document.querySelector('dialog div.priorities');
     divPriorities.classList.remove('visible');
 
+    // hide date-picker panel
     const divDatePicker = document.querySelector('div.date-picker');
     divDatePicker.classList.remove('visible');
 }
@@ -101,7 +101,7 @@ function todoClicked(event) {
     spanTitle.textContent = event.target.dataset.todoTitle;
 
     // display Description and Note of the todo
-    renderDescriptionAndNote();
+    renderDescriptionAndNote(event.target);
 
 
     dialog.showModal();
