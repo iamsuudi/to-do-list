@@ -430,11 +430,11 @@ const loadSyncedProjects = new Promise((resolve, reject) => {
         
         displayProjects();
         
-        if (!titleOfProject) {
+        if (!titleOfProject)
+            reject(Error('No project title is provided'));
+        else {
             resolve(titleOfProject);
         }
-        else
-            reject(Error('No project title is provided'));
     });
 })
 
