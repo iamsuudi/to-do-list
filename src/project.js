@@ -67,16 +67,18 @@ function createToDo(title, description, dueDate, priority) {
     return todos[title].push(todo);
 }
 
+function getAlltodos() {
+    return projects.map(proj => todos[proj]).flat();
+}
+
 function displayProjectToDos(title) {
+    if (title === 'all-todos')
+        return getAlltodos();
     return todos[title];
 }
 
 function getProjectTitles() {
     return projects;
-}
-
-function displayAllToDos() {
-    return projects.map(proj => todos[proj]).flat();
 }
 
 function deleteProject(title) {
@@ -156,4 +158,4 @@ function loadFromLocalStorage() {
 loadFromLocalStorage();
 
 
-export {createToDo, displayAllToDos, displayProjectToDos, addProject, getProjectTitles, deleteProject, deleteTodo};
+export {createToDo, displayProjectToDos, addProject, getProjectTitles, deleteProject, deleteTodo};
