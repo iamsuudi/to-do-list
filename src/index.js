@@ -6,15 +6,17 @@ let titleOfProject = 'all-todos';
 let currentPriority = 'all-priority';
 let currentTodoIndex = -1;
 
-const projects = document.querySelector('div.projects');
 let todos = displayProjectToDos(titleOfProject);
 const titles = getProjectTitles();
+
+const projects = document.querySelector('div.projects');
 const allTodoBtn = document.querySelector('button.all-todos');
 const divList = document.querySelector('div.list');
 const dialog = document.querySelector('dialog.detail');
 const cancelDialogBtn = document.querySelector('dialog button.cancel');
 const deleteTodoBtn = document.querySelector('dialog button.delete');
 const main = document.querySelector('main');
+const divPriorities = document.querySelector('dialog div.priorities');
 
 // a function which responds to todo done checker
 function checkClicked(event) {
@@ -38,7 +40,7 @@ function checkClicked(event) {
 }
 
 function renderCurrentTodoPriority() {
-    const divPriorities = document.querySelector('dialog div.priorities');
+
     divPriorities.querySelectorAll('button').forEach(btn => {
         btn.classList.remove('selected');
         if (btn.classList[0] === todos[currentTodoIndex].getPriority())
@@ -79,12 +81,69 @@ function cancelDialogClicked()  {
     dialog.close();
 
     // hide priority changing panel
-    const divPriorities = document.querySelector('dialog div.priorities');
     divPriorities.classList.remove('visible');
 
     // hide date-picker panel
     const divDatePicker = document.querySelector('div.date-picker');
     divDatePicker.classList.remove('visible');
+}
+
+function fixTodoIndices(initialIndex) {  // after one is deleted
+    const allTodoBtns = document.querySelectorAll(`div.list button[data-todo-index]`);
+
+    allTodoBtns.forEach(btn => {
+        console.log(btn.dataset.todoIndex);
+        if(Number(btn.dataset.todoIndex) >= Number(initialIndex))
+            btn.dataset.todoIndex -= 1;
+    });
+}
+
+function deleteTodoClicked() {
+    
+    const clickedTodo = document.querySelector('button.clicked-todo');
+    const {todoTitle} = clickedTodo.dataset;
+    const {todoIndex} = clickedTodo.dataset;
+
+    // delete the todo object from array
+    deleteTodo(todoTitle, todoIndex, titleOfProject);
+
+    // close the dialog
+    dialog.close();
+    
+    // delete the todo from the DOM
+    clickedTodo.parentElement.remove();
+
+    // fix the data-index of the following todo-items
+    fixTodoIndices(todoIndex);
+}
+
+function displayChangepriorityPanel() {
+
+    const clickedTodo = document.querySelector('button.clicked-todo');
+
+    function changePriorityClicked(e) {
+        if (e.target.className === 'cancel')
+            setTimeout(() => {
+                divPriorities.classList.remove('visible');
+            }, 200);
+        else {
+            const currentSelctedPriority = divPriorities.querySelector('button.selected');
+
+            if (currentSelctedPriority)
+                currentSelctedPriority.classList.remove('selected');
+
+            todos[currentTodoIndex].setPriority(e.target.className);
+
+            e.target.classList.add('selected');
+
+            if (currentPriority !== 'all-todos')
+                clickedTodo.parentElement.remove();
+        }
+    }
+
+    divPriorities.classList.add('visible');
+
+    divPriorities.querySelectorAll('button').forEach(btn => btn.addEventListener('click', changePriorityClicked));
 }
 
 function todoClicked(event) {
@@ -106,7 +165,7 @@ function todoClicked(event) {
 
     dialog.showModal();
 
-    // render its priority up-front
+    // render its priority up-front for time saving
     renderCurrentTodoPriority();
 
     // add listener to date picker
@@ -115,7 +174,7 @@ function todoClicked(event) {
 
     // add listener to changing-priority button
     const changePriorityBtn = document.querySelector('button.change-priority');
-    changePriorityBtn.addEventListener('click', changePriorityClicked);
+    changePriorityBtn.addEventListener('click', displayChangepriorityPanel);
 
     // add listener to delete button of todos
     deleteTodoBtn.addEventListener('click', deleteTodoClicked);
@@ -153,66 +212,6 @@ function addTodoToDOM(todo, index) {
     divList.appendChild(todoNode);
     divList.scrollTo(0, divList.scrollHeight);
 
-}
-
-function fixTodoIndices(initialIndex) {  // after one is deleted
-    const allTodoBtns = document.querySelectorAll(`div.list button[data-todo-index]`);
-
-    allTodoBtns.forEach(btn => {
-        console.log(btn.dataset.todoIndex);
-        if(Number(btn.dataset.todoIndex) >= Number(initialIndex))
-            btn.dataset.todoIndex -= 1;
-    });
-}
-
-function deleteTodoClicked() {
-    
-    const clickedTodo = document.querySelector('button.clicked-todo');
-    const {todoTitle} = clickedTodo.dataset;
-    const {todoIndex} = clickedTodo.dataset;
-
-    // delete the todo object from array
-    deleteTodo(todoTitle, todoIndex, titleOfProject);
-
-    // close the dialog
-    dialog.close();
-    
-    // delete the todo from the DOM
-    clickedTodo.parentElement.remove();
-
-    // fix the data-index of the following todo-items
-    fixTodoIndices(todoIndex);
-}
-
-function changePriorityClicked() {
-
-    const clickedTodo = document.querySelector('button.clicked');
-
-    const divPriorities = document.querySelector('dialog div.priorities');
-    
-    function priority(e) {
-        if (e.target.className === 'cancel')
-            setTimeout(() => {
-                divPriorities.classList.remove('visible');
-            }, 200);
-        else {
-            const currentSelctedPriority = divPriorities.querySelector('button.selected');
-
-            if (currentSelctedPriority)
-                currentSelctedPriority.classList.remove('selected');
-
-            todos[currentTodoIndex].setPriority(e.target.className);
-
-            e.target.classList.add('selected');
-
-            if (divList.classList[1] && divList.classList[1] !== todos[currentTodoIndex].getPriority())
-                clickedTodo.parentElement.remove();
-        }
-    }
-
-    divPriorities.classList.add('visible');
-
-    divPriorities.querySelectorAll('button').forEach(btn => btn.addEventListener('click', priority));
 }
 
 function newTodoInputListener(event) {
@@ -283,6 +282,23 @@ function UpdateCurrentTitleAndPriority(category) {
     }
 }
 
+const displaySpecificProjectTodos = (title) => {
+
+    todos = displayProjectToDos(title);
+
+    if (currentPriority !== 'all-priority') {
+        for(let index = 0; index < todos.length; index += 1) {
+            if (todos[index].getPriority() === currentPriority)
+                addTodoToDOM(todos[index], index);
+        }
+    }
+    else {
+        for(let index = 0; index < todos.length; index += 1) {
+            addTodoToDOM(todos[index], index);
+        }
+    }
+}
+
 // a function which responds when project button clicked
 function categoryClicked(event) {
     
@@ -318,18 +334,18 @@ function deleteProjectFromDOM(event) {
         
         divList.innerHTML = '';
 
-        /*  if the current project being deleted is the last project,
-            make the first project the next one 
-        */
         if (titles.length === 0) {
+            // if it is the only project avialable
             titleOfProject = 'all-todos';
             currentCategorySwitcher(allTodoBtn);
             displaySpecificProjectTodos(titleOfProject);
             divInputController(titleOfProject);
         }
         else if (indexOfProject === titles.length)
+            // if it is the last of the available projects
             todos = displayProjectToDos(titles[0]);
         else
+            // if it is from the middle
             todos = displayProjectToDos(titles[indexOfProject]);
 
         // load todos in the next project
@@ -429,8 +445,6 @@ function createProject() {
 }
 
 function datePickerClicked(event) {
-    const clickedTodo = document.querySelector('button.clicked');
-    const {todoIndex} = clickedTodo.dataset;
 
     const divDatePicker = document.querySelector('div.date-picker');
 
@@ -446,13 +460,13 @@ function datePickerClicked(event) {
     divDatePicker.classList.add('visible');
     
     // Show the formatted time left for the todo
-    formatted.textContent = formatDistanceToNow(todos[todoIndex].getDueDate()).concat(' left');
+    formatted.textContent = formatDistanceToNow(todos[currentTodoIndex].getDueDate()).concat(' left');
     
     // get dueDate info from the clicked todo object and extract date from it for input-date
-    dateInp.value = format(todos[todoIndex].getDueDate(), 'yyyy-MM-dd');
+    dateInp.value = format(todos[currentTodoIndex].getDueDate(), 'yyyy-MM-dd');
     
     // get dueDate info from the clicked todo object and extract time from it for input-time
-    timeInp.value = format(todos[todoIndex].getDueDate(), 'hh:mm');
+    timeInp.value = format(todos[currentTodoIndex].getDueDate(), 'hh:mm');
     
     // set minimum date as today in case the user wanted to update dueDate
     dateInp.min = format(new Date(), 'yyyy-MM-dd');
@@ -466,34 +480,19 @@ function datePickerClicked(event) {
 
     // Add listner to set-button
     setBtn.addEventListener('click', () => {
+
         const dateArray = dateInp.value.split('-');
+
         dateArray[1] = Number(dateArray[1])-1;
 
         const timeArray = timeInp.value.split(':');
 
-        todos[todoIndex].setDueDate(new Date(...dateArray, ...timeArray));
+        todos[currentTodoIndex].setDueDate(new Date(...dateArray, ...timeArray));
 
         setTimeout(() => {
             divDatePicker.classList.remove('visible');
         }, 250);
     });
-}
-
-const displaySpecificProjectTodos = (title) => {
-
-    todos = displayProjectToDos(title);
-
-    if (currentPriority !== 'all-priority') {
-        for(let index = 0; index < todos.length; index += 1) {
-            if (todos[index].getPriority() === currentPriority)
-                addTodoToDOM(todos[index], index);
-        }
-    }
-    else {
-        for(let index = 0; index < todos.length; index += 1) {
-            addTodoToDOM(todos[index], index);
-        }
-    }
 }
 
 function displayProjects(title) {
