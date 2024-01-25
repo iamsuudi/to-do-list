@@ -47,7 +47,7 @@ function todoClicked(event) {
     note.value = todos[todoIndex].getNote();
     dialog.showModal();
     dialog.dataset.todoIndex = todoIndex;
-    todo.classList.add('clicked');
+    todo.classList.add('clicked-todo');
 
     description.addEventListener('input', e => {
         todos[todoIndex].setDescription(e.target.value);
@@ -109,7 +109,7 @@ function fixTodoIndices(initialIndex) {  // after one is deleted
 }
 
 function deleteTodoFromDOM(event) {
-    const clickedTodo = document.querySelector('button.clicked');
+    const clickedTodo = document.querySelector('button.clicked-todo');
     const {todoTitle} = clickedTodo.dataset;
     const {todoIndex} = clickedTodo.dataset;
 
@@ -203,17 +203,19 @@ function divInputController(title) {
     }
 }
 
-function displayAllTodosCreated() {
-    const currentProject = document.querySelector('button.current-project');
-    
-    if (currentProject)
-        currentProject.classList.remove('current-project');
+function currentCategoryController(currentPlayer) {
+
+    const currentCategory = document.querySelector('button.current-category');
+
+    if (currentCategory)
+        currentCategory.classList.remove('current-project');
+
+    currentPlayer.classList.remove('current-category');
+}
 
 // a function which responds when project button clicked
 function projectClicked(event) {
-    const currentProject = document.querySelector('button.current-project');
-    const currentPriority = document.querySelector('button.current-priority');
-
+    
     if (currentProject)
         currentProject.classList.remove('current-project');
     if (currentPriority)
@@ -250,6 +252,7 @@ function deleteProjectFromDOM(event) {
         */
         if (titles.length === 0) {
             titleOfProject = 'all-todos';
+            currentCategoryController(allTodoBtn);
             displaySpecificProjectTodos(titleOfProject);
             divInputController(titleOfProject);
         }
@@ -442,19 +445,14 @@ loadSyncedProjects.then(displaySpecificProjectTodos).catch(err => {
 allTodoBtn.addEventListener('click', projectClicked);
 
 function priorityClicked(event) {
-    const currentProject = document.querySelector('button.current-project');
-    const currentPriority = document.querySelector('button.current-priority');
-
-    if (currentProject)
-        currentProject.classList.remove('current-project');
-    if (currentPriority)
-        currentPriority.classList.remove('current-priority');
+    
+    currentCategoryController(event.target);
 
     event.target.classList.add('current-priority');
 
     titleOfProject = 'all-todos';
 
-    todos = displayAllToDos();
+    todos = displayProjectToDos(titleOfProject);
 
     divList.innerHTML = '';
     divList.classList.add(titleOfProject, event.target.classList[0]);
@@ -465,8 +463,7 @@ function priorityClicked(event) {
         }
     }
 
-    if (main.querySelector('div.input'))
-        main.querySelector('div.input').remove();
+    divInputController(titleOfProject);
 }
 
 // add listener to priority buttons
