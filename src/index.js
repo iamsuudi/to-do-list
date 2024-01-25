@@ -396,9 +396,21 @@ function datePicker(event) {
     });
 }
 
-// load projects
-window.addEventListener('DOMContentLoaded', () => {
-    
+const displaySpecificProjectTodos = (title) => {
+
+    todos = displayProjectToDos(title);
+
+    divList.classList.add(title);
+
+    for(let index = 0; index < (!todos ? 0 : todos.length); index += 1) {
+        addTodoToDOM(todos[index], index);
+    }
+
+    divInputController(title);
+}
+
+function displayProjects() {
+
     for(let i = 0; i < titles.length; i += 1)
         addProjectToDOM(titles[i]);
 }
