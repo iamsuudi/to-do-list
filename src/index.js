@@ -176,46 +176,27 @@ function inputListener(event) {
     })
 }
 
-// a function which responds when project button clicked
-function projectClicked(event) {
-    const currentProject = document.querySelector('button.current-project');
-    const currentPriority = document.querySelector('button.current-priority');
+function divInputController(title) {
 
-    if (currentProject)
-        currentProject.classList.remove('current-project');
-    if (currentPriority)
-        currentPriority.classList.remove('current-priority');
-    
-    divList.className = 'list';
-
-    const proj = event.target;
-
-    titleOfProject = proj.className;
-    proj.classList.add('current-project');
-    todos = displayProjectToDos(titleOfProject);
-    divList.innerHTML = '';
-
-    // load todos in a project
-    for(let index = 0; index < todos.length; index += 1) {
-        addTodoToDOM(todos[index], index);
-    }
-    divList.classList.add(titleOfProject);
-
-    if (main.querySelector('div.input'))
+    if (main.querySelector('div.input') && title === 'all-todos')
         main.querySelector('div.input').remove();
 
-    if (titleOfProject !== 'all-todos' && !main.querySelector('div.input')) {
+    else if (!main.querySelector('div.input') && title !== 'all-todos') {
 
         const div = document.createElement('div');
         div.className = 'input';
+
         const input = document.createElement('input');
         input.type = "text";
         input.name = "todo-name";
         input.id = "todo-name";
         input.placeholder = "+   Add task";
+
         divList.style.height = '90%';
+
         // add input listener and render a new todo to the DOM
-        input.addEventListener('focus', inputListener);
+        input.addEventListener('focus', newTodoInputListener);
+
         div.appendChild(input);
         
         main.appendChild(div);
@@ -240,8 +221,7 @@ function displayAllTodosCreated() {
         addTodoToDOM(todos[index], index);
     }
 
-    if (main.querySelector('div.input'))
-        main.querySelector('div.input').remove();
+    divInputController(titleOfProject);
 }
 
 function deleteProjectFromDOM(event) {
@@ -264,9 +244,9 @@ function deleteProjectFromDOM(event) {
             make the first project the next one 
         */
         if (titles.length === 0) {
-            displayAllTodosCreated();
-            if (main.querySelector('div.input'))
-                main.querySelector('div.input').remove();
+            titleOfProject = 'all-todos';
+            displaySpecificProjectTodos(titleOfProject);
+            divInputController(titleOfProject);
         }
         else if (indexOfProject === titles.length)
             todos = displayProjectToDos(titles[0]);
