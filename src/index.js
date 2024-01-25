@@ -421,17 +421,25 @@ window.addEventListener('DOMContentLoaded', () => {
     
     for(let i = 0; i < titles.length; i += 1)
         addProjectToDOM(titles[i]);
-    
-    if (titleOfProject === 'all-todos') {
-        displayAllTodosCreated();
-    }
-});
-
-// load todos in the default project
-divList.classList.add(titleOfProject);
-for(let index = 0; index < !todos ? 0 : todos.length; index += 1) {
-    addTodoToDOM(todos[index], index);
 }
+
+const loadSyncedProjects = new Promise((resolve, reject) => {
+
+    window.addEventListener('DOMContentLoaded', () => {
+        
+        displayProjects();
+        
+        if (!titleOfProject) {
+            resolve(titleOfProject);
+        }
+        else
+            reject(Error('No project title is provided'));
+    });
+})
+
+loadSyncedProjects.then(displaySpecificProjectTodos).catch(err => {
+    console.log(err);
+})
 
 // add listener to the btn which displays all todos
 allTodoBtn.addEventListener('click', displayAllTodosCreated);
