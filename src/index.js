@@ -209,19 +209,22 @@ function currentCategoryController(currentPlayer) {
     const currentCategory = document.querySelector('button.current-category');
 
     if (currentCategory)
-        currentCategory.classList.remove('current-project');
+        currentCategory.classList.remove('current-category');
 
-    currentPlayer.classList.remove('current-category');
+    currentPlayer.classList.add('current-category');
 }
 
 // a function which responds when project button clicked
 function projectClicked(event) {
     
+    titleOfProject = event.target.className;
+
     currentCategoryController(event.target);
     
     divList.className = 'list';
     divList.classList.add('all-todos');
     divList.innerHTML = '';
+
 
     // load todos in a project
     displaySpecificProjectTodos(titleOfProject);
@@ -446,13 +449,12 @@ function priorityClicked(event) {
     
     currentCategoryController(event.target);
 
-    event.target.classList.add('current-priority');
-
     titleOfProject = 'all-todos';
 
     todos = displayProjectToDos(titleOfProject);
 
     divList.innerHTML = '';
+
     divList.classList.add(titleOfProject, event.target.classList[0]);
 
     for(let i = 0; i < todos.length; i += 1) {
