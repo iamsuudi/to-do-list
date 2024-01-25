@@ -3,6 +3,7 @@ import {createToDo, displayProjectToDos, addProject, getProjectTitles, deletePro
 import './styles/style.sass';
 
 let titleOfProject = 'all-todos';
+let currentPriority = 'all-priority';
 
 const projects = document.querySelector('div.projects');
 let todos = displayProjectToDos(titleOfProject);
@@ -204,31 +205,42 @@ function divInputController(title) {
     }
 }
 
-function currentCategoryController(currentPlayer) {
+function currentCategorySwitcher(category) {
 
     const currentCategory = document.querySelector('button.current-category');
 
     if (currentCategory)
         currentCategory.classList.remove('current-category');
 
-    currentPlayer.classList.add('current-category');
+    category.classList.add('current-category');
+}
+
+function UpdateCurrentTitleAndPriority(category) {
+
+    if(category.classList.length >= 2)
+        [titleOfProject, currentPriority] = category.classList;
+    else {
+        [titleOfProject] = category.classList;
+        currentPriority = 'all-priority';
+    }
 }
 
 // a function which responds when project button clicked
-function projectClicked(event) {
+function categoryClicked(event) {
     
-    titleOfProject = event.target.className;
+    // update currentTitle and currentPriority
+    UpdateCurrentTitleAndPriority(event.target);
 
-    currentCategoryController(event.target);
+    // Switch current-category className to this project
+    currentCategorySwitcher(event.target);
     
-    divList.className = 'list';
-    divList.classList.add('all-todos');
+    // clean board for todos
     divList.innerHTML = '';
 
-
-    // load todos in a project
+    // display todos in of the project on the board
     displaySpecificProjectTodos(titleOfProject);
 
+    // display input div if needed
     divInputController(titleOfProject);
 }
 
@@ -253,7 +265,7 @@ function deleteProjectFromDOM(event) {
         */
         if (titles.length === 0) {
             titleOfProject = 'all-todos';
-            currentCategoryController(allTodoBtn);
+            currentCategorySwitcher(allTodoBtn);
             displaySpecificProjectTodos(titleOfProject);
             divInputController(titleOfProject);
         }
@@ -299,20 +311,24 @@ function addProjectToDOM(title) {
     })
 
     // add listener for clicked project to render its todos
-    titleBtn.addEventListener('click', projectClicked);
+    titleBtn.addEventListener('click', categoryClicked);
 
     projects.appendChild(proj);
 }
 
 function createProject() {
+
     const projInput = document.querySelector('div.new-project');
+
     if (projInput.innerHTML === '') {
 
         projInput.style.visibility = 'visible';
         projInput.classList.add('creating-newproject');
+
         const inp = document.createElement('input');
         inp.type = 'text';
         inp.placeholder = 'Enter name';
+
         projInput.appendChild(inp);
     
         inp.addEventListener('focus', event => {
@@ -327,7 +343,7 @@ function createProject() {
                     
                     // add it to the DOM
                     addProjectToDOM(content.toLowerCase());
-                    console.log('adding new category');
+                    
                     inp.value = '';
                     projInput.innerHTML = '';
                     projInput.style.visibility = 'hidden';
@@ -409,13 +425,17 @@ const displaySpecificProjectTodos = (title) => {
 
     todos = displayProjectToDos(title);
 
-    divList.classList.add(title);
-
-    for(let index = 0; index < (!todos ? 0 : todos.length); index += 1) {
-        addTodoToDOM(todos[index], index);
+    if (currentPriority !== 'all-priority') {
+        for(let index = 0; index < todos.length; index += 1) {
+            if (todos[index].getPriority() === currentPriority)
+                addTodoToDOM(todos[index], index);
+        }
     }
-
-    divInputController(title);
+    else {
+        for(let index = 0; index < todos.length; index += 1) {
+            addTodoToDOM(todos[index], index);
+        }
+    }
 }
 
 function displayProjects(title) {
@@ -436,11 +456,11 @@ const loadSyncedProjects = new Promise((resolve, reject) => {
 function addListenerToCategoryBtns() {
 
     // add listener to the btn which displays all todos
-    allTodoBtn.addEventListener('click', projectClicked);
+    allTodoBtn.addEventListener('click', categoryClicked);
     
     // add listener to priority buttons
     const priorityBtns = document.querySelectorAll('aside div.priorities button');
-    priorityBtns.forEach(btn => btn.addEventListener('click', priorityClicked));
+    priorityBtns.forEach(btn => btn.addEventListener('click', categoryClicked));
 
     return Promise.resolve(titleOfProject);
 }
@@ -448,28 +468,6 @@ function addListenerToCategoryBtns() {
 loadSyncedProjects.then(displayProjects).then(addListenerToCategoryBtns).then(displaySpecificProjectTodos).catch(err => {
     console.log(err);
 });
-
-function priorityClicked(event) {
-    
-    currentCategoryController(event.target);
-
-    titleOfProject = 'all-todos';
-
-    todos = displayProjectToDos(titleOfProject);
-
-    divList.innerHTML = '';
-
-    divList.classList.add(titleOfProject, event.target.classList[0]);
-
-    for(let i = 0; i < todos.length; i += 1) {
-        if (todos[i].getPriority() === event.target.classList[0]) {
-            addTodoToDOM(todos[i], i);
-        }
-    }
-
-    divInputController(titleOfProject);
-
-}
 
 // add listener to cancel btn to detail dialog
 cancelDialogBtn.addEventListener('click', e => {
