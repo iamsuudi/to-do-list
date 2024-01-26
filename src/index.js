@@ -99,54 +99,28 @@ function displaypriorityPanel() {
     divPriorities.querySelectorAll('button').forEach(btn => btn.addEventListener('click', changePriorityClicked));
 }
 
-function displayDatePicker(event) {
+function displayDatePicker() {
 
     const divDatePicker = document.querySelector('div.date-picker');
 
     const formatted = divDatePicker.querySelector('p.formatted');
-
     const dateInp = divDatePicker.querySelector('input#date');
     const timeInp = divDatePicker.querySelector('input#time');
-
+    
     const cancelBtn = divDatePicker.querySelector('button.cancel');
     const setBtn = divDatePicker.querySelector('button.set');
 
-    // Make the div visible
-    divDatePicker.classList.add('visible');
+    import (/* webpackPrefetch: true */ './date-picker').then(module => {
+        const DatePicker = module.default;
     
-    // Show the formatted time left for the todo
-    formatted.textContent = formatDistanceToNow(todos[currentTodoIndex].getDueDate()).concat(' left');
+        // created datePicker Obj
+        const datePicker = new DatePicker(divDatePicker, todos, currentTodoIndex);
+        
+        datePicker.renderData(formatted, dateInp, timeInp);
     
-    // get dueDate info from the clicked todo object and extract date from it for input-date
-    dateInp.value = format(todos[currentTodoIndex].getDueDate(), 'yyyy-MM-dd');
+        datePicker.listenToCancelBtn(cancelBtn);
     
-    // get dueDate info from the clicked todo object and extract time from it for input-time
-    timeInp.value = format(todos[currentTodoIndex].getDueDate(), 'hh:mm');
-    
-    // set minimum date as today in case the user wanted to update dueDate
-    dateInp.min = format(new Date(), 'yyyy-MM-dd');
-
-    // add listener to cancel-button
-    cancelBtn.addEventListener('click', () => {
-        setTimeout(() => {
-            divDatePicker.classList.remove('visible');
-        }, 250);
-    });
-
-    // Add listner to set-button
-    setBtn.addEventListener('click', () => {
-
-        const dateArray = dateInp.value.split('-');
-
-        dateArray[1] = Number(dateArray[1])-1;
-
-        const timeArray = timeInp.value.split(':');
-
-        todos[currentTodoIndex].setDueDate(new Date(...dateArray, ...timeArray));
-
-        setTimeout(() => {
-            divDatePicker.classList.remove('visible');
-        }, 250);
+        datePicker.listenToSetBtn(setBtn, dateInp, timeInp);
     });
 }
 
