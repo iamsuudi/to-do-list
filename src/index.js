@@ -18,26 +18,7 @@ const deleteTodoBtn = document.querySelector('dialog button.delete');
 const main = document.querySelector('main');
 const divPriorities = document.querySelector('dialog div.priorities');
 
-// a function which responds to todo done checker
-function checkClicked(event) {
-    const todo = event.target.parentElement;
-    const checkerBtn = event.target;
-    const todoNameBtn = todo.querySelector('button.description');
-    const {todoIndex} = todoNameBtn.dataset;
 
-    if (todos[todoIndex].getStatus() === 'done') {
-        // undo the task
-        todoNameBtn.dataset.status = 'pending';
-        checkerBtn.dataset.status = 'pending';
-        todos[todoIndex].setStatus('pending');
-    }
-    else {
-        // do the task
-        todoNameBtn.dataset.status = 'done';
-        checkerBtn.dataset.status = 'done';
-        todos[todoIndex].setStatus('done');
-    }
-}
 
 function renderCurrentTodoPriority() {
 
@@ -46,34 +27,6 @@ function renderCurrentTodoPriority() {
         if (btn.classList[0] === todos[currentTodoIndex].getPriority())
             btn.classList.add('selected');
     });
-}
-
-function SyncDescriptionAndNoteDynamically(description, note, todoDOM) {
-
-    // listen to change and update dynamically
-    description.addEventListener('input', e => {
-
-        // sync to the todo object
-        todos[currentTodoIndex].setDescription(e.target.value);
-
-        // sync to the todo DOM
-        todoDOM.textContent = e.target.value;
-    })
-    note.addEventListener('input', e => {
-        todos[currentTodoIndex].setNote(e.target.value);
-    })
-}
-
-function renderDescriptionAndNote(todoDOM) {
-
-    const description = document.querySelector('input.todo-description');
-    const note = document.querySelector('textarea#note');
-
-    description.value = todos[currentTodoIndex].getDescription();
-    note.value = todos[currentTodoIndex].getNote();
-
-    // update and sync description and note dynamically on change
-    SyncDescriptionAndNoteDynamically(description, note, todoDOM);
 }
 
 function cancelDialogClicked()  {
@@ -117,7 +70,7 @@ function deleteTodoClicked() {
     fixTodoIndices(todoIndex);
 }
 
-function displayChangepriorityPanel() {
+function displaypriorityPanel() {
 
     const clickedTodo = document.querySelector('button.clicked-todo');
 
@@ -146,6 +99,107 @@ function displayChangepriorityPanel() {
     divPriorities.querySelectorAll('button').forEach(btn => btn.addEventListener('click', changePriorityClicked));
 }
 
+function displayDatePicker(event) {
+
+    const divDatePicker = document.querySelector('div.date-picker');
+
+    const formatted = divDatePicker.querySelector('p.formatted');
+
+    const dateInp = divDatePicker.querySelector('input#date');
+    const timeInp = divDatePicker.querySelector('input#time');
+
+    const cancelBtn = divDatePicker.querySelector('button.cancel');
+    const setBtn = divDatePicker.querySelector('button.set');
+
+    // Make the div visible
+    divDatePicker.classList.add('visible');
+    
+    // Show the formatted time left for the todo
+    formatted.textContent = formatDistanceToNow(todos[currentTodoIndex].getDueDate()).concat(' left');
+    
+    // get dueDate info from the clicked todo object and extract date from it for input-date
+    dateInp.value = format(todos[currentTodoIndex].getDueDate(), 'yyyy-MM-dd');
+    
+    // get dueDate info from the clicked todo object and extract time from it for input-time
+    timeInp.value = format(todos[currentTodoIndex].getDueDate(), 'hh:mm');
+    
+    // set minimum date as today in case the user wanted to update dueDate
+    dateInp.min = format(new Date(), 'yyyy-MM-dd');
+
+    // add listener to cancel-button
+    cancelBtn.addEventListener('click', () => {
+        setTimeout(() => {
+            divDatePicker.classList.remove('visible');
+        }, 250);
+    });
+
+    // Add listner to set-button
+    setBtn.addEventListener('click', () => {
+
+        const dateArray = dateInp.value.split('-');
+
+        dateArray[1] = Number(dateArray[1])-1;
+
+        const timeArray = timeInp.value.split(':');
+
+        todos[currentTodoIndex].setDueDate(new Date(...dateArray, ...timeArray));
+
+        setTimeout(() => {
+            divDatePicker.classList.remove('visible');
+        }, 250);
+    });
+}
+
+function SyncDescriptionAndNoteDynamically(description, note, todoDOM) {
+
+    // listen to change and update dynamically
+    description.addEventListener('input', e => {
+
+        // sync to the todo object
+        todos[currentTodoIndex].setDescription(e.target.value);
+
+        // sync to the todo DOM
+        todoDOM.textContent = e.target.value;
+    })
+    note.addEventListener('input', e => {
+        todos[currentTodoIndex].setNote(e.target.value);
+    })
+}
+
+function renderDescriptionAndNote(todoDOM) {
+
+    const description = document.querySelector('input.todo-description');
+    const note = document.querySelector('textarea#note');
+
+    description.value = todos[currentTodoIndex].getDescription();
+    note.value = todos[currentTodoIndex].getNote();
+
+    // update and sync description and note dynamically on change
+    SyncDescriptionAndNoteDynamically(description, note, todoDOM);
+}
+
+
+
+// a function which responds to todo done checker
+function checkClicked(event) {
+    const todo = event.target.parentElement;
+    const checkerBtn = event.target;
+    const todoNameBtn = todo.querySelector('button.description');
+
+    if (todos[currentTodoIndex].getStatus() === 'done') {
+        // undo the task
+        todoNameBtn.dataset.status = 'pending';
+        checkerBtn.dataset.status = 'pending';
+        todos[currentTodoIndex].setStatus('pending');
+    }
+    else {
+        // do the task
+        todoNameBtn.dataset.status = 'done';
+        checkerBtn.dataset.status = 'done';
+        todos[currentTodoIndex].setStatus('done');
+    }
+}
+
 function todoClicked(event) {
     event.preventDefault();
     
@@ -170,11 +224,11 @@ function todoClicked(event) {
 
     // add listener to date picker
     const remindmeBtn = document.querySelector('button.remindme');
-    remindmeBtn.addEventListener('click', datePickerClicked);
+    remindmeBtn.addEventListener('click', displayDatePicker);
 
     // add listener to changing-priority button
     const changePriorityBtn = document.querySelector('button.change-priority');
-    changePriorityBtn.addEventListener('click', displayChangepriorityPanel);
+    changePriorityBtn.addEventListener('click', displaypriorityPanel);
 
     // add listener to delete button of todos
     deleteTodoBtn.addEventListener('click', deleteTodoClicked);
@@ -234,6 +288,8 @@ function newTodoInputListener(event) {
     })
 }
 
+
+
 function divInputController(title) {
     // adds input div to addnew todos if needed
 
@@ -282,22 +338,7 @@ function UpdateCurrentTitleAndPriority(category) {
     }
 }
 
-const displaySpecificProjectTodos = (title) => {
 
-    todos = displayProjectToDos(title);
-
-    if (currentPriority !== 'all-priority') {
-        for(let index = 0; index < todos.length; index += 1) {
-            if (todos[index].getPriority() === currentPriority)
-                addTodoToDOM(todos[index], index);
-        }
-    }
-    else {
-        for(let index = 0; index < todos.length; index += 1) {
-            addTodoToDOM(todos[index], index);
-        }
-    }
-}
 
 // a function which responds when project button clicked
 function categoryClicked(event) {
@@ -444,55 +485,35 @@ function createProject() {
     }
 }
 
-function datePickerClicked(event) {
 
-    const divDatePicker = document.querySelector('div.date-picker');
 
-    const formatted = divDatePicker.querySelector('p.formatted');
+const displaySpecificProjectTodos = (title) => {
 
-    const dateInp = divDatePicker.querySelector('input#date');
-    const timeInp = divDatePicker.querySelector('input#time');
+    todos = displayProjectToDos(title);
 
-    const cancelBtn = divDatePicker.querySelector('button.cancel');
-    const setBtn = divDatePicker.querySelector('button.set');
+    if (currentPriority !== 'all-priority') {
+        for(let index = 0; index < todos.length; index += 1) {
+            if (todos[index].getPriority() === currentPriority)
+                addTodoToDOM(todos[index], index);
+        }
+    }
+    else {
+        for(let index = 0; index < todos.length; index += 1) {
+            addTodoToDOM(todos[index], index);
+        }
+    }
+}
 
-    // Make the div visible
-    divDatePicker.classList.add('visible');
+function addListenerToCategoryBtns() {
+
+    // add listener to the btn which displays all todos
+    allTodoBtn.addEventListener('click', categoryClicked);
     
-    // Show the formatted time left for the todo
-    formatted.textContent = formatDistanceToNow(todos[currentTodoIndex].getDueDate()).concat(' left');
-    
-    // get dueDate info from the clicked todo object and extract date from it for input-date
-    dateInp.value = format(todos[currentTodoIndex].getDueDate(), 'yyyy-MM-dd');
-    
-    // get dueDate info from the clicked todo object and extract time from it for input-time
-    timeInp.value = format(todos[currentTodoIndex].getDueDate(), 'hh:mm');
-    
-    // set minimum date as today in case the user wanted to update dueDate
-    dateInp.min = format(new Date(), 'yyyy-MM-dd');
+    // add listener to priority buttons
+    const priorityBtns = document.querySelectorAll('aside div.priorities button');
+    priorityBtns.forEach(btn => btn.addEventListener('click', categoryClicked));
 
-    // add listener to cancel-button
-    cancelBtn.addEventListener('click', () => {
-        setTimeout(() => {
-            divDatePicker.classList.remove('visible');
-        }, 250);
-    });
-
-    // Add listner to set-button
-    setBtn.addEventListener('click', () => {
-
-        const dateArray = dateInp.value.split('-');
-
-        dateArray[1] = Number(dateArray[1])-1;
-
-        const timeArray = timeInp.value.split(':');
-
-        todos[currentTodoIndex].setDueDate(new Date(...dateArray, ...timeArray));
-
-        setTimeout(() => {
-            divDatePicker.classList.remove('visible');
-        }, 250);
-    });
+    return Promise.resolve(titleOfProject);
 }
 
 function displayProjects(title) {
@@ -509,18 +530,6 @@ const loadSyncedProjects = new Promise((resolve, reject) => {
         resolve(titleOfProject);
     });
 })
-
-function addListenerToCategoryBtns() {
-
-    // add listener to the btn which displays all todos
-    allTodoBtn.addEventListener('click', categoryClicked);
-    
-    // add listener to priority buttons
-    const priorityBtns = document.querySelectorAll('aside div.priorities button');
-    priorityBtns.forEach(btn => btn.addEventListener('click', categoryClicked));
-
-    return Promise.resolve(titleOfProject);
-}
 
 loadSyncedProjects.then(displayProjects).then(addListenerToCategoryBtns).then(displaySpecificProjectTodos).catch(err => {
     console.log(err);
