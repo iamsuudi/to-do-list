@@ -13,6 +13,8 @@ export default class Input {
 
     content;
 
+    #dialog = document.querySelector('dialog.detail');
+
     constructor(main, board, title, todos) {
         this.main = main;
         this.board = board;
@@ -28,41 +30,116 @@ export default class Input {
         input.id = "todo-name";
         input.placeholder = "+   Add task";
 
+        const AddBtn = document.createElement('button');
+        AddBtn.className = 'submit';
+        AddBtn.textContent = 'Add';
+
         this.board.style.height = '90%';
 
-        // add input listener and render a new todo to the DOM
-        input.addEventListener('focus', this.newTodoInputListener);
-
         div.appendChild(input);
+        div.appendChild(AddBtn);
         
         this.main.appendChild(div);
+
+        this.listenToInput();
+        this.listenToAddBtn();
     }
 
-    newTodoInputListener(event) {
+    listenToInput() {
+        const  input = this.main.querySelector('div.input input');
+        const  AddBtn = this.main.querySelector('div.input button.submit');
 
-        this.content = event.target.value;
+        // add input listener and render a new todo to the DOM
+        input.addEventListener('input', (event) => {
 
-        window.addEventListener('keydown', this.createNewTodo);
+            this.content = event.target.value;
+
+            if (this.content !== '') {
+                console.log('not empty');
+                AddBtn.classList.add('add');
+                input.style.outlineColor = '#0084ffc9';
+            }
+            else {
+                console.log('empty');
+                AddBtn.classList.remove('add');
+                input.style.outlineColor = '#8e8e92';
+            }
+        });
     }
 
-    createNewTodo(event) {
+    listenToAddBtn() {
+        const  input = this.main.querySelector('div.input input');
+        const  AddBtn = this.main.querySelector('div.input button.submit');
+
+        AddBtn.addEventListener('click', () => {
+    
+            if (this.content !== '')
+                this.createNewTodo(input);
+
+        });
+    }
+
+    createNewTodo(input) {
+
+        console.log('creating new todo');
         
-        if (event.code === 'Enter' && this.content !== '') {
-            console.log('creating new todo');
-            
-            // Create a todo object, append it to the array and take the returned the new length value
-            const index = createToDo(this.title, this.content, add(new Date(), {days: 7, hours: 8, minutes: 30}), 'medium');
-            console.log('created new todo');
-            // update todos list 
-            this.todos = displayProjectToDos(this.title);
+        // Create a todo object, append it to the array and take the returned the new length value
+        const index = createToDo(this.title, this.content, add(new Date(), {days: 7, hours: 8, minutes: 30}), 'medium');
+        console.log('created new todo at index ', index);
+        // update todos list 
+        this.todos = displayProjectToDos(this.title);
 
-            // create node for the todo
-            this.addTodoToDOM(this.todos[index], index - 1);
-            console.log('added new todo to DOM');
+        // create node for the todo
+        console.log('todos list\n', this.todos[index - 1]);
+        this.addTodoToDOM(this.todos[index - 1], index - 1);
+        console.log('added new todo to DOM');
 
-            document.querySelector('div.input input').value = '';
-            // event.target.blur();
+        console.log(input.value);
+        input.value = '';
+        console.log(input.value);
+        // input.blur();
+
+    }
+
+    checkClicked(event) {
+
+        // a function which responds to todo done checker
+
+        const todo = event.target.parentElement;
+        const checkerBtn = event.target;
+        const todoNameBtn = todo.querySelector('button.description');
+        const index = todoNameBtn.dataset.todoIndex;
+
+        if (this.todos[index].getStatus() === 'done') {
+            // undo the task
+            todoNameBtn.dataset.status = 'pending';
+            checkerBtn.dataset.status = 'pending';
+            this.todos[index].setStatus('pending');
         }
+        else {
+            // do the task
+            todoNameBtn.dataset.status = 'done';
+            checkerBtn.dataset.status = 'done';
+            this.todos[index].setStatus('done');
+        }
+    }
+
+    todoClicked(event) {
+
+        const todo = event.target;
+
+        todo.classList.add('clicked-todo');
+
+        this.index = todo.dataset.todoIndex;
+
+        import (/* webpackPrefetch: true */ './dialog').then(module => {
+
+            const Dialog = module.default;
+        
+            // created dialog Obj
+            const dialogPanel = new Dialog(this.#dialog, this.todos, this.title, this.index, this.priority, todo);
+
+        });
     }
 
     addTodoToDOM(todo, index) {
