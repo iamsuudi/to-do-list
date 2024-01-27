@@ -106,15 +106,34 @@ main
 
         input
             height: 2.5rem
-            width: 95%
+            width: 80%
             background-color: #424242
             border: 0
             outline: 0.1rem solid #8e8e92
-            border-radius: 0.5rem
+            border-top-left-radius: 0.5rem
+            border-bottom-left-radius: 0.5rem
             color: white
             padding-left: 1rem
             &::placeholder
                 font-size: 1rem
                 color: #8e8e92
-            &:focus
-                outline-color: #0083ff
+
+        button.submit
+            width: 15%
+            color: #ccc
+            height: 2.5rem
+            font-size: 1rem
+            text-align: center
+            outline: 0.1rem solid #8e8e92
+            border-top-right-radius: 0.5rem
+            border-bottom-right-radius: 0.5rem
+            background-color: #666
+            &:hover
+                font-weight: normal
+            &.add
+                outline-color: #0084ffc9
+                background-color: #0084ffc9
+            &.add:hover
+                font-weight: 700
+
+            
