@@ -1,5 +1,4 @@
-import {add, formatDistanceToNow, format} from 'date-fns';
-import {createToDo, displayProjectToDos, addProject, getProjectTitles, deleteProject, deleteTodo} from "./project";
+import {addProject, getProjectTitles, deleteProject} from "./project";
 import './styles/style.sass';
 
 let titleOfProject = 'all-todos';

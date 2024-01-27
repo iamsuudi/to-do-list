@@ -8,37 +8,55 @@ export default class DatePicker {
 
     #index;
 
+
     constructor(div, todos, index) {
+
         this.#div = div;
         this.#todos = todos;
         this.#index = index;
 
+        this.parag = this.#div.querySelector('p.formatted');
+
+        this.dateInp = this.#div.querySelector('input#date');
+
+        this.timeInp = this.#div.querySelector('input#time');
+        
+        this.cancelBtn = this.#div.querySelector('button.cancel');
+
+        this.setBtn = this.#div.querySelector('button.set');
+
         this.display();
+
+        this.renderData();
+
+        this.listenToCancelBtn();
+
+        this.listenToSetBtn();
     }
 
     display() {
         this.#div.classList.add('visible');
     }
 
-    renderData(parag, dateInp, timeInp) {
+    renderData() {
   
         // Show the formatted time left for the todo
-        parag.textContent = formatDistanceToNow(this.#todos[this.#index].getDueDate()).concat(' left');
+        this.parag.textContent = formatDistanceToNow(this.#todos[this.#index].getDueDate()).concat(' left');
         
         // get dueDate info from the clicked todo object and extract date from it for input-date
-        dateInp.value = format(this.#todos[this.#index].getDueDate(), 'yyyy-MM-dd');
+        this.dateInp.value = format(this.#todos[this.#index].getDueDate(), 'yyyy-MM-dd');
         
         // set minimum date as today in case the user wanted to update dueDate
-        dateInp.min = format(new Date(), 'yyyy-MM-dd');
+        this.dateInp.min = format(new Date(), 'yyyy-MM-dd');
 
         // get dueDate info from the clicked todo object and extract time from it for input-time
-        timeInp.value = format(this.#todos[this.#index].getDueDate(), 'hh:mm');
+        this.timeInp.value = format(this.#todos[this.#index].getDueDate(), 'hh:mm');
         
     }
 
-    listenToCancelBtn(cancelBtn) {
+    listenToCancelBtn() {
         
-        cancelBtn.addEventListener('click', () => {
+        this.cancelBtn.addEventListener('click', () => {
             setTimeout(() => {
                 this.#div.classList.remove('visible');
             }, 250);
@@ -46,28 +64,28 @@ export default class DatePicker {
         });
     }
 
-    extractDate(dateInp) {
+    extractDate() {
 
-        const dateArray = dateInp.value.split('-');
+        const dateArray = this.dateInp.value.split('-');
 
         dateArray[1] = Number(dateArray[1])-1;
 
         return dateArray;
     }
 
-    extractTime(timeInp) {
-        return timeInp.value.split(':');
+    extractTime() {
+        return this.timeInp.value.split(':');
     }
 
-    listenToSetBtn(setBtn, dateInp, timeInp) {
+    listenToSetBtn() {
         
-        setBtn.addEventListener('click', () => {
+        this.setBtn.addEventListener('click', () => {
 
             // get date
-            const date = this.extractDate(dateInp);
+            const date = this.extractDate();
 
             // get time
-            const time = this.extractTime(timeInp);
+            const time = this.extractTime();
 
             // sync the change
             this.#todos[this.#index].setDueDate(new Date(...date, ...time));

@@ -1,7 +1,4 @@
 import {displayProjectToDos} from "./project";
-import Input from './inputDiv';
-import './styles/_aside.sass';
-import './styles/_main-todo-list.sass';
 
 export default class Category {
 
@@ -151,9 +148,14 @@ export default class Category {
     
         else if (!this.main.querySelector('div.input') && this.title !== 'all-todos') {
             
-            // created dialog Obj (main, board, title, todos)
-            const inputDiv = new Input(this.main, this.board, this.title, this.todos);
+            import (/* webpackPrefetch: true */ './inputDiv').then(module => {
 
+                const Input = module.default;
+                
+                // created input-div object
+                const dialogPanel = new Input(this.main, this.board, this.title, this.todos);
+    
+            });
         }
     }
     
