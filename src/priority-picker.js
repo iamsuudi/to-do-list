@@ -2,7 +2,6 @@
 
 export default class Priority {
 
-
     divPriorities = document.querySelector('dialog div.priorities');
 
     constructor(todos, index, priority, clickedTodo) {
@@ -28,8 +27,9 @@ export default class Priority {
 
             btn.classList.remove('selected');
 
-            if (btn.classList[0] === this.todos[this.index].getPriority())
+            if (btn.classList[0] === this.todos[this.index].getPriority()) {
                 btn.classList.add('selected');
+            }
         });
     }
 
@@ -44,16 +44,16 @@ export default class Priority {
             this.switchCurrentSelectedPriorityBtn(clickedBtn);
 
             // sync the change to the todo object
-            this.todos[this.index].setPriority(clickedBtn.className);
-
+            this.todos[this.index].setPriority(clickedBtn.classList[0]);
+            
             // remove todo if it's in a different priority category
-            if (this.priority !== 'all-todos')
+            if (this.priority !== 'all-priority')
                 this.clickedTodo.parentElement.remove();
         }
     }
 
     listenToBtns() {
-        
+
         const allPriorityBtns = this.divPriorities.querySelectorAll('button');
 
         allPriorityBtns.forEach(btn => {

@@ -2,18 +2,6 @@ import {displayProjectToDos} from "./project";
 
 export default class Category {
 
-    project;
-
-    todos;
-
-    title;
-
-    priority;
-
-    index;
-
-    board;
-
     main = document.querySelector('main');
 
     constructor(project, title, priority, board) {

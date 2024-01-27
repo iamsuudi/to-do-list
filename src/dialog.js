@@ -2,16 +2,6 @@ import {deleteTodo} from "./project";
 
 export default class Dialog {
 
-    todos;
-
-    title;
-
-    index;
-
-    priority;
-
-    clickedTodo;
-
     dialog = document.querySelector('dialog.detail');
 
     divPriorities = document.querySelector('dialog div.priorities');
@@ -25,7 +15,7 @@ export default class Dialog {
         this.index = index;
         this.priority = priority;
         this.clickedTodo = clickedTodo;
-
+    console.log(this.clickedTodo);
 
         // update the title on dialog header
         const spanTitle = this.dialog.querySelector('span.title');

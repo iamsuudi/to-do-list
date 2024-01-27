@@ -13,7 +13,7 @@ export default class Input {
 
     content;
 
-    #dialog = document.querySelector('dialog.detail');
+    dialog = document.querySelector('dialog.detail');
 
     constructor(main, board, title, todos) {
         this.main = main;
@@ -81,23 +81,17 @@ export default class Input {
 
     createNewTodo(input) {
 
-        console.log('creating new todo');
-        
         // Create a todo object, append it to the array and take the returned the new length value
         const index = createToDo(this.title, this.content, add(new Date(), {days: 7, hours: 8, minutes: 30}), 'medium');
-        console.log('created new todo at index ', index);
+        
         // update todos list 
         this.todos = displayProjectToDos(this.title);
 
         // create node for the todo
-        console.log('todos list\n', this.todos[index - 1]);
         this.addTodoToDOM(this.todos[index - 1], index - 1);
-        console.log('added new todo to DOM');
 
-        console.log(input.value);
         input.value = '';
-        console.log(input.value);
-        // input.blur();
+        input.focus();
 
     }
 
@@ -137,7 +131,7 @@ export default class Input {
             const Dialog = module.default;
         
             // created dialog Obj
-            const dialogPanel = new Dialog(this.#dialog, this.todos, this.title, this.index, this.priority, todo);
+            const dialogPanel = new Dialog(this.dialog, this.todos, this.title, this.index, this.priority, todo);
 
         });
     }
