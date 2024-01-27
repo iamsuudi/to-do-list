@@ -17,18 +17,16 @@ export default class Category {
 
     board;
 
-    #dialog = document.querySelector('dialog.detail');
-
-    #main = document.querySelector('main');
+    main = document.querySelector('main');
 
     constructor(project, title, priority, board) {
-
+        
         this.project = project;
-        console.log(this.title);
         this.title = title;
-        console.log(this.title);
         this.priority = priority;
         this.board = board;
+
+        this.todos = displayProjectToDos(title);
 
         this.currentCategorySwitcher();
 
@@ -52,12 +50,11 @@ export default class Category {
         this.project.classList.add('current-category');
     }
 
-    checkClicked(event) {
+    checkClicked(checkBtn) {
 
         // a function which responds to todo done checker
-
-        const todo = event.target.parentElement;
-        const checkerBtn = event.target;
+        const todo = checkBtn.parentElement;
+        const checkerBtn = checkBtn;
         const todoNameBtn = todo.querySelector('button.description');
 
         if (this.todos[this.index].getStatus() === 'done') {
@@ -74,9 +71,7 @@ export default class Category {
         }
     }
 
-    todoClicked(event) {
-
-        const todo = event.target;
+    todoClicked(todo) {
 
         todo.classList.add('clicked-todo');
 
@@ -85,9 +80,9 @@ export default class Category {
         import (/* webpackPrefetch: true */ './dialog').then(module => {
 
             const Dialog = module.default;
-        
+            
             // created dialog Obj
-            const dialogPanel = new Dialog(this.#dialog, this.todos, this.title, this.index, this.priority, todo);
+            const dialogPanel = new Dialog(this.todos, this.title, this.index, this.priority, todo);
 
         });
     }
@@ -101,7 +96,10 @@ export default class Category {
         // create todo status checker button
         const btn = document.createElement('button');
         btn.className = 'status-checker';
-        btn.addEventListener('click', this.checkClicked);   // change appearance when clicked
+        btn.addEventListener('click', (event) => {
+            // change appearance when clicked
+            this.checkClicked(event.target);
+        });   
         btn.dataset.status = todo.getStatus();
         todoNode.appendChild(btn);
     
@@ -112,7 +110,10 @@ export default class Category {
         button.dataset.todoIndex = index;
         button.dataset.todoTitle = todo.getTitle();
         button.dataset.status = todo.getStatus();
-        button.addEventListener('click', this.todoClicked);  // open detail when clicked
+        button.addEventListener('click', (event) => {
+            // open detail when clicked
+            this.todoClicked(event.target);
+        });
         todoNode.appendChild(button);
 
 
@@ -145,13 +146,13 @@ export default class Category {
     divInputController() {
 
         // check input-div availablity and remove or leave it as needed
-        if (this.#main.querySelector('div.input') && this.title === 'all-todos')
-            this.#main.querySelector('div.input').remove();
+        if (this.main.querySelector('div.input') && this.title === 'all-todos')
+            this.main.querySelector('div.input').remove();
     
-        else if (!this.#main.querySelector('div.input') && this.title !== 'all-todos') {
+        else if (!this.main.querySelector('div.input') && this.title !== 'all-todos') {
             
             // created dialog Obj (main, board, title, todos)
-            const inputDiv = new Input(this.#main, this.board, this.title, this.todos);
+            const inputDiv = new Input(this.main, this.board, this.title, this.todos);
 
         }
     }
