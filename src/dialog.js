@@ -8,13 +8,16 @@ export default class Dialog {
 
     divDatePicker = document.querySelector('div.date-picker');
 
-    constructor(todos, title, index, priority, clickedTodo) {
+    constructor(todoObj, title, index, priority, clickedTodo) {
 
-        this.todos = todos;
+        this.todoObj = todoObj;
         this.title = title;
         this.index = index;
         this.priority = priority;
         this.clickedTodo = clickedTodo;
+    console.log(this.todoObj);
+    console.log(this.title);
+    console.log(this.priority);
     console.log(this.clickedTodo);
 
         // update the title on dialog header
@@ -59,8 +62,8 @@ export default class Dialog {
         const description = this.dialog.querySelector('input.todo-description');
         const note = this.dialog.querySelector('textarea#note');
 
-        description.value = this.todos[this.index].getDescription();
-        note.value = this.todos[this.index].getNote();
+        description.value = this.todoObj.getDescription();
+        note.value = this.todoObj.getNote();
     
         // update and sync description and note dynamically on change
         this.SyncDescriptionAndNoteDynamically(description, note);
@@ -72,13 +75,13 @@ export default class Dialog {
         description.addEventListener('input', e => {
     
             // sync to the todo object
-            this.todos[this.index].setDescription(e.target.value);
+            this.todoObj.setDescription(e.target.value);
     
-            // sync to the todo DOM
+            // sync to the todoNode
             this.clickedTodo.textContent = e.target.value;
         })
         note.addEventListener('input', e => {
-            this.todos[this.index].setNote(e.target.value);
+            this.todoObj.setNote(e.target.value);
         })
     }
     
@@ -89,7 +92,7 @@ export default class Dialog {
             const DatePicker = module.default;
         
             // created datePicker Obj
-            const datePicker = new DatePicker(this.divDatePicker, this.todos, this.index);
+            const datePicker = new DatePicker(this.divDatePicker, this.todoObj);
 
         });
     }
@@ -101,7 +104,7 @@ export default class Dialog {
             const Priority = module.default;
         
             // create priority panel Obj (todos, index, priority, clickedTodo)
-            const datePicker = new Priority(this.todos, this.index, this.priority, this.clickedTodo);
+            const priorityPanel = new Priority(this.todoObj, this.priority, this.clickedTodo);
 
         });
     }
@@ -114,7 +117,7 @@ export default class Dialog {
         deleteTodo(todoTitle, this.index, this.title);
     
         // close the dialog
-        this.panel.close();
+        this.dialog.close();
         
         // delete the todo from the DOM
         this.clickedTodo.parentElement.remove();

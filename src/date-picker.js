@@ -2,18 +2,15 @@ import {formatDistanceToNow, format} from 'date-fns';
 
 export default class DatePicker {
 
+    #todoObj;
+
     #div;
 
-    #todos;
 
-    #index;
-
-
-    constructor(div, todos, index) {
+    constructor(div, todoObj) {
 
         this.#div = div;
-        this.#todos = todos;
-        this.#index = index;
+        this.#todoObj = todoObj;
 
         this.parag = this.#div.querySelector('p.formatted');
 
@@ -41,16 +38,16 @@ export default class DatePicker {
     renderData() {
   
         // Show the formatted time left for the todo
-        this.parag.textContent = formatDistanceToNow(this.#todos[this.#index].getDueDate()).concat(' left');
+        this.parag.textContent = formatDistanceToNow(this.#todoObj.getDueDate()).concat(' left');
         
         // get dueDate info from the clicked todo object and extract date from it for input-date
-        this.dateInp.value = format(this.#todos[this.#index].getDueDate(), 'yyyy-MM-dd');
+        this.dateInp.value = format(this.#todoObj.getDueDate(), 'yyyy-MM-dd');
         
         // set minimum date as today in case the user wanted to update dueDate
         this.dateInp.min = format(new Date(), 'yyyy-MM-dd');
 
         // get dueDate info from the clicked todo object and extract time from it for input-time
-        this.timeInp.value = format(this.#todos[this.#index].getDueDate(), 'hh:mm');
+        this.timeInp.value = format(this.#todoObj.getDueDate(), 'hh:mm');
         
     }
 
@@ -88,7 +85,7 @@ export default class DatePicker {
             const time = this.extractTime();
 
             // sync the change
-            this.#todos[this.#index].setDueDate(new Date(...date, ...time));
+            this.#todoObj.setDueDate(new Date(...date, ...time));
 
             // cancel the div panel
             setTimeout(() => {

@@ -57,14 +57,9 @@ function deleteProjectFromDOM(event) {
 
     // delete object first
     deleteProject(proj.classList[0]);
-
-    // remove from DOM
-    proj.remove();
     
     // check if the currently displayed todos are of this project
-    if (divList.classList[1] === proj.classList[0]) {
-        
-        divList.innerHTML = '';
+    if (titleOfProject === proj.classList[0]) {
 
         if (titles.length === 0) {
             // if it is the only project avialable
@@ -74,14 +69,19 @@ function deleteProjectFromDOM(event) {
         else if (indexOfProject === titles.length) {
             // if it is the last of the available projects
             const nextCategory = projects.querySelector(`button.${titles[0]}`);
+            [titleOfProject] = titles;
             displayDefaultCategoryTodos(nextCategory);
         }
         else {
             // if it is from the middle
             const nextCategory = projects.querySelector(`button.${titles[indexOfProject]}`);
+            titleOfProject = titles[indexOfProject];
             displayDefaultCategoryTodos(nextCategory);
         }
     }
+
+    // remove from DOM
+    proj.remove();
 }
 
 function addProjectToDOM(title) {
