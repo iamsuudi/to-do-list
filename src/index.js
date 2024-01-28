@@ -194,16 +194,30 @@ function displayProjects(category) {
     return Promise.resolve(category);
 }
 
-const loadSyncedProjects = new Promise((resolve, reject) => {
+async function loadSyncedProjects() {
 
-    window.addEventListener('DOMContentLoaded', () => {
-        resolve(allTodoBtn);
-    });
-})
+    try {
 
-loadSyncedProjects.then(displayProjects).then(addListenerToCategoryBtns).then(displayDefaultCategoryTodos).catch(err => {
-    console.log(err);
-});
+        const defaultCategoryLoaded = await Promise.resolve().then( () => {
+            window.addEventListener( 'DOMContentLoaded', () => true );
+        });
+
+        const defaultCategory = allTodoBtn;
+
+        displayProjects(defaultCategory);
+
+        addListenerToCategoryBtns(defaultCategory);
+
+        displayDefaultCategoryTodos(defaultCategory);
+
+    } catch(err) {
+
+        console.error(err);
+
+    }
+};
+
+loadSyncedProjects();
 
 // add listener to projects header button for creating new category/project
 const addProjectBtn = document.querySelector('div.projects-top button.small');
