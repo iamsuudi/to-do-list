@@ -1,12 +1,11 @@
 
 export default class NewTodo {
 
-    constructor(board, todo, title, index, priority) {
+    constructor(board, todo) {
+
         this.board = board;
+        
         this.todo = todo;
-        this.title = title;
-        this.index = index;
-        this.priority = priority;
 
         this.addTodoToDOM();
     }
@@ -43,7 +42,7 @@ export default class NewTodo {
             const Dialog = module.default;
             
             // created dialog Obj
-            const dialogPanel = new Dialog(this.todo, this.title, this.index, this.priority, todoNode);
+            const dialogPanel = new Dialog(this.todo, todoNode);
 
         });
     }
@@ -53,6 +52,7 @@ export default class NewTodo {
         // create todo div node
         const todoNode = document.createElement('div');
         todoNode.className = 'todo';
+        todoNode.dataset.id = this.todo.getId();
     
         // create todo status checker button
         const btn = document.createElement('button');
@@ -68,8 +68,7 @@ export default class NewTodo {
         const button = document.createElement('button');
         button.textContent = this.todo.getDescription();
         button.className = 'description';
-        button.dataset.todoIndex = this.index;
-        button.dataset.todoTitle = this.todo.getTitle();
+        button.dataset.selectedPriority = this.todo.getTitle();
         button.dataset.status = this.todo.getStatus();
         button.addEventListener('click', (event) => {
             // open detail when clicked

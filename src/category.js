@@ -49,12 +49,12 @@ export default class Category {
             if (this.priority !== 'all-priority') {
                 for (let index = 0; index < this.todos.length; index += 1) {
                     if (this.todos[index].getPriority() === this.priority)
-                        newtodo = new NewTodo(this.board, this.todos[index], this.title, index);
+                        newtodo = new NewTodo(this.board, this.todos[index]);
                 }
             }
             else {
                 for (let index = 0; index < this.todos.length; index += 1) {
-                    newtodo = new NewTodo(this.board, this.todos[index], this.title, index,);
+                    newtodo = new NewTodo(this.board, this.todos[index],);
                 }
             }
         });

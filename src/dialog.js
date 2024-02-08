@@ -1,21 +1,18 @@
 import { deleteTodo } from './project';
 
 export default class Dialog {
+
     dialog = document.querySelector('dialog.detail');
 
     divPriorities = document.querySelector('dialog div.priorities');
 
     divDatePicker = document.querySelector('div.date-picker');
 
-    constructor(todoObj, title, index, clickedTodo) {
+    constructor(todoObj, clickedTodo) {
+
         this.todoObj = todoObj;
-        this.title = title;
-        this.index = index;
+
         this.clickedTodo = clickedTodo;
-        console.log(this.todoObj);
-        console.log(this.title);
-        console.log(this.priority);
-        console.log(this.clickedTodo);
 
         // update the title on dialog header
         const spanTitle = this.dialog.querySelector('span.title');
