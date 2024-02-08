@@ -90,23 +90,29 @@ function deleteProject(title) {
     window.localStorage.setItem("projects", JSON.stringify(projects));
 }
 
-function getLessThanFrequency(title) {
-    const titlesBefore = projects.indexOf(title);
-    let TotalLengths = 0;
-    for (let i = 0; i < titlesBefore; i += 1) {
-        TotalLengths += todos[projects[i]].length;
+function getIndex(arr, id) {
+
+    let start = 0;
+    let end = arr.length - 1;
+
+    while (start <= end) {
+
+        const mid = Math.floor((start + end) / 2);
+
+        if (arr[mid].getId() < id) end -= 1;
+        else start -= 1;
+
+        if (arr[mid].getId() === id) return mid;
     }
-    return TotalLengths;
+
+    return -1;
 }
 
-function deleteTodo(title, todoIndex, arrayType) {
+function deleteTodo(title, id) {
 
-    if (arrayType === 'all-todos') {
-        const LessThanFreq = getLessThanFrequency(title);
-        todos[title].splice(todoIndex - LessThanFreq, 1);
-    }
-    else
-        todos[title].splice(todoIndex, 1);
+    const todoIndex = getIndex(todos[title], id);
+
+    todos[title].splice(todoIndex, 1);
 }
 
 function loadFromLocalStorage() {
@@ -155,7 +161,7 @@ function loadFromLocalStorage() {
 }
 
 // addDefaultsToLocalStorage();
-loadFromLocalStorage();
+// loadFromLocalStorage();
 
 
 export {createToDo, displayProjectToDos, addProject, getProjectTitles, deleteProject, deleteTodo};
