@@ -50,6 +50,7 @@ function displayDefaultCategoryTodos(category) {
 
     });
 }
+
 function deleteProjectFromDOM(event) {
     const proj = event.target.parentElement;
     
@@ -174,39 +175,39 @@ function createProject() {
     }
 }
 
-function addListenerToCategoryBtns(category) {
+function addListenerToCategoryBtns() {
 
     // add listener to the btn which displays all todos
-    category.addEventListener('click', categoryClicked);
+    allTodoBtn.addEventListener('click', categoryClicked);
     
     // add listener to priority buttons
     const priorityBtns = document.querySelectorAll('aside div.priorities button');
     priorityBtns.forEach(btn => btn.addEventListener('click', categoryClicked));
 
-    return Promise.resolve(category);
+    // return Promise.resolve(category);
 }
 
-function displayProjects(category) {
+function displayProjects() {
 
     for(let i = 0; i < titles.length; i += 1)
         addProjectToDOM(titles[i]);
 
-    return Promise.resolve(category);
+    // return Promise.resolve(category);
 }
 
 async function loadSyncedProjects() {
 
     try {
 
-        const defaultCategoryLoaded = await Promise.resolve().then( () => {
+        Promise.resolve().then( () => {
             window.addEventListener( 'DOMContentLoaded', () => true );
         });
 
         const defaultCategory = allTodoBtn;
 
-        displayProjects(defaultCategory);
+        displayProjects();
 
-        addListenerToCategoryBtns(defaultCategory);
+        addListenerToCategoryBtns();
 
         displayDefaultCategoryTodos(defaultCategory);
 
