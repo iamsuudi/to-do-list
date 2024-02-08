@@ -8,7 +8,6 @@ export default class Category {
 
         this.project = project;
         this.title = title;
-        this.priority = priority;
         this.board = board;
 
         this.todos = displayProjectToDos(title);
@@ -17,6 +16,7 @@ export default class Category {
 
         // clean the board for new todos
         this.board.innerHTML = '';
+        this.board.dataset.priority = priority;
 
         // display todos of the category on the board
         this.displaySpecificProjectTodos();
@@ -49,12 +49,12 @@ export default class Category {
             if (this.priority !== 'all-priority') {
                 for (let index = 0; index < this.todos.length; index += 1) {
                     if (this.todos[index].getPriority() === this.priority)
-                        newtodo = new NewTodo(this.board, this.todos[index], this.title, index, this.priority);
+                        newtodo = new NewTodo(this.board, this.todos[index], this.title, index);
                 }
             }
             else {
                 for (let index = 0; index < this.todos.length; index += 1) {
-                    newtodo = new NewTodo(this.board, this.todos[index], this.title, index, this.priority);
+                    newtodo = new NewTodo(this.board, this.todos[index], this.title, index,);
                 }
             }
         });
