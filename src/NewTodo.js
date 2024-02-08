@@ -36,7 +36,7 @@ export default class NewTodo {
 
         todoNode.classList.add('clicked-todo');
 
-        this.index = todoNode.dataset.todoIndex;
+        // this.index = todoNode.dataset.todoIndex;
 
         import (/* webpackPrefetch: true */ './dialog').then(module => {
 
