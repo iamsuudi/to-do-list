@@ -6,7 +6,7 @@ export default class Dialog {
 
     divPriorities = document.querySelector('dialog div.priorities');
 
-    divDatePicker = document.querySelector('div.date-picker');
+
 
     constructor(todoObj, title, index, priority, clickedTodo) {
 
@@ -92,7 +92,7 @@ export default class Dialog {
             const DatePicker = module.default;
         
             // created datePicker Obj
-            const datePicker = new DatePicker(this.divDatePicker, this.todoObj);
+            const datePicker = new DatePicker(this.todoObj);
 
         });
     }
