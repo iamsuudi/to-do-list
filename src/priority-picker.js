@@ -4,10 +4,12 @@ export default class Priority {
 
     divPriorities = document.querySelector('dialog div.priorities');
 
-    constructor(todoObj, priority, clickedTodo) {
+    board = document.querySelector('div.list');
+
+    constructor(todoObj, clickedTodo) {
 
         this.todoObj = todoObj;
-        this.priority = priority;
+
         this.clickedTodo = clickedTodo;
 
         // render the current todos priority
@@ -21,9 +23,7 @@ export default class Priority {
     }
 
     renderCurrentTodoPriority() {
-
-        this.divPriorities.querySelectorAll('button').forEach(btn => {
-
+        this.divPriorities.querySelectorAll('button').forEach((btn) => {
             btn.classList.remove('selected');
 
             if (btn.classList[0] === this.todoObj.getPriority()) {
@@ -39,35 +39,31 @@ export default class Priority {
                 this.divPriorities.classList.remove('visible');
             }, 200);
         else {
-
+            
             this.switchCurrentSelectedPriorityBtn(clickedBtn);
 
             // sync the change to the todo object
             this.todoObj.setPriority(clickedBtn.classList[0]);
-            
+
             // remove todo if it's in a different priority category
-            if (this.priority !== 'all-priority')
+            if (this.board.dataset.priority !== 'all-priority')
                 this.clickedTodo.parentElement.remove();
         }
     }
 
     listenToBtns() {
-
         const allPriorityBtns = this.divPriorities.querySelectorAll('button');
 
-        allPriorityBtns.forEach(btn => {
-
-            btn.addEventListener('click', event => {
-
+        allPriorityBtns.forEach((btn) => {
+            btn.addEventListener('click', (event) => {
                 this.btnClicked(event.target);
-
             });
-        })
+        });
     }
 
     switchCurrentSelectedPriorityBtn(clickedBtn) {
-
-        const currentSelctedPriority = this.divPriorities.querySelector('button.selected');
+        const currentSelctedPriority =
+            this.divPriorities.querySelector('button.selected');
 
         if (currentSelctedPriority)
             currentSelctedPriority.classList.remove('selected');

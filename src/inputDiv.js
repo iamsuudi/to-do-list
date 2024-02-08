@@ -5,8 +5,6 @@ export default class Input {
 
     content;
 
-    dialog = document.querySelector('dialog.detail');
-
     constructor(main, board, title, todos) {
         this.main = main;
         this.board = board;
@@ -38,7 +36,9 @@ export default class Input {
     }
 
     listenToInput() {
-        const  input = this.main.querySelector('div.input input');
+
+        const input = this.main.querySelector('div.input input');
+        
         const  AddBtn = this.main.querySelector('div.input button.submit');
 
         // add input listener and render a new todo to the DOM
@@ -47,12 +47,12 @@ export default class Input {
             this.content = event.target.value;
 
             if (this.content !== '') {
-                console.log('not empty');
+                // console.log('not empty');
                 AddBtn.classList.add('add');
                 input.style.outlineColor = '#0084ffc9';
             }
             else {
-                console.log('empty');
+                // console.log('empty');
                 AddBtn.classList.remove('add');
                 input.style.outlineColor = '#8e8e92';
             }
@@ -60,7 +60,9 @@ export default class Input {
     }
 
     listenToAddBtn() {
-        const  input = this.main.querySelector('div.input input');
+
+        const input = this.main.querySelector('div.input input');
+        
         const  AddBtn = this.main.querySelector('div.input button.submit');
 
         AddBtn.addEventListener('click', () => {
@@ -83,8 +85,8 @@ export default class Input {
 
             const NewTodo = module.default;
 
-            // created dialog Obj (board, todo, title, index, priority)
-            const newtodo = new NewTodo(this.board, this.todos[index - 1], this.title, index - 1, this.priority);
+            // created new todo Obj (board, todo, title, index, priority)
+            const newtodo = new NewTodo(this.board, this.todos[index - 1]);
         });
 
         input.value = '';

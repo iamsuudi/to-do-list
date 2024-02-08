@@ -3,6 +3,8 @@ export default class ToDo {
 
     #title;
 
+    #id;
+
     #description;
 
     #dueDate;
@@ -13,12 +15,22 @@ export default class ToDo {
     
     #status = 'pending';
 
+    static #uuid = 1000;
+
     constructor(title, description, dueDate, priority) {
         this.#title = title;
         this.#description = description;
         this.#dueDate = dueDate;
         this.#priority = priority;
+        this.#incrementUUID();
     }
+
+    #incrementUUID() {
+        ToDo.#uuid += 1;
+        this.#id = ToDo.#uuid;
+    }
+
+    getId = () => this.#id;
 
     getTitle = () => this.#title;
 

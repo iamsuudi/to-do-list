@@ -1,26 +1,22 @@
-import {formatDistanceToNow, format} from 'date-fns';
+import { formatDistanceToNow, format } from 'date-fns';
 
 export default class DatePicker {
-
     #todoObj;
 
-    #div;
+    #divDatePicker = document.querySelector('div.date-picker');
 
-
-    constructor(div, todoObj) {
-
-        this.#div = div;
+    constructor(todoObj) {
         this.#todoObj = todoObj;
 
-        this.parag = this.#div.querySelector('p.formatted');
+        this.parag = this.#divDatePicker.querySelector('p.formatted');
 
-        this.dateInp = this.#div.querySelector('input#date');
+        this.dateInp = this.#divDatePicker.querySelector('input#date');
 
-        this.timeInp = this.#div.querySelector('input#time');
-        
-        this.cancelBtn = this.#div.querySelector('button.cancel');
+        this.timeInp = this.#divDatePicker.querySelector('input#time');
 
-        this.setBtn = this.#div.querySelector('button.set');
+        this.cancelBtn = this.#divDatePicker.querySelector('button.cancel');
+
+        this.setBtn = this.#divDatePicker.querySelector('button.set');
 
         this.display();
 
@@ -32,40 +28,38 @@ export default class DatePicker {
     }
 
     display() {
-        this.#div.classList.add('visible');
+        this.#divDatePicker.classList.add('visible');
     }
 
     renderData() {
-  
         // Show the formatted time left for the todo
-        this.parag.textContent = formatDistanceToNow(this.#todoObj.getDueDate()).concat(' left');
-        
+        this.parag.textContent = formatDistanceToNow(
+            this.#todoObj.getDueDate()
+        ).concat(' left');
+
         // get dueDate info from the clicked todo object and extract date from it for input-date
         this.dateInp.value = format(this.#todoObj.getDueDate(), 'yyyy-MM-dd');
-        
+
         // set minimum date as today in case the user wanted to update dueDate
         this.dateInp.min = format(new Date(), 'yyyy-MM-dd');
 
         // get dueDate info from the clicked todo object and extract time from it for input-time
         this.timeInp.value = format(this.#todoObj.getDueDate(), 'hh:mm');
-        
     }
 
     listenToCancelBtn() {
-        
         this.cancelBtn.addEventListener('click', () => {
             setTimeout(() => {
-                this.#div.classList.remove('visible');
+                this.#divDatePicker.classList.remove('visible');
             }, 250);
             delete this;
         });
     }
 
     extractDate() {
-
         const dateArray = this.dateInp.value.split('-');
 
-        dateArray[1] = Number(dateArray[1])-1;
+        dateArray[1] = Number(dateArray[1]) - 1;
 
         return dateArray;
     }
@@ -75,9 +69,7 @@ export default class DatePicker {
     }
 
     listenToSetBtn() {
-        
         this.setBtn.addEventListener('click', () => {
-
             // get date
             const date = this.extractDate();
 
@@ -89,7 +81,7 @@ export default class DatePicker {
 
             // cancel the div panel
             setTimeout(() => {
-                this.#div.classList.remove('visible');
+                this.#divDatePicker.classList.remove('visible');
             }, 250);
         });
     }
