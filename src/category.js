@@ -9,7 +9,7 @@ export default class Category {
         this.project = project;
         this.title = title;
         this.board = board;
-
+        this.priority = priority;
         this.todos = displayProjectToDos(title);
 
         this.currentCategorySwitcher();
