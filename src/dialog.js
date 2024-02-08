@@ -111,10 +111,8 @@ export default class Dialog {
 
     deleteTodoClicked() {
     
-        const {todoTitle} = this.clickedTodo.dataset;
-    
         // delete the todo object from array
-        deleteTodo(todoTitle, this.index, this.title);
+        deleteTodo(this.todoObj.getTitle(), this.todoObj.getId());
     
         // close the dialog
         this.dialog.close();
