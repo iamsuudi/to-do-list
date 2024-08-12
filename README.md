@@ -1,6 +1,6 @@
 # Todo List App
 
-Website: https://polyglotpal.up.railway.app/
+Website: https://iamsuudi.github.io/to-do-list/
 
 It's completely open at the moment, just run and try it out!
 
